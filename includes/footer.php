@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <?php
 // retrieve contact info for footer (queried every time include loaded)
 $contact = [];
@@ -342,10 +343,13 @@ All Rights Reserved.
 
 
 =======
+=======
+>>>>>>> de354fc30b76cb77a822ce5b1d0cd7fcb2b0f525
 <footer id="kontak" class="bg-dark text-white pt-5 pb-3">
     <div class="container">
         <div class="row">
             <div class="col-md-4 mb-4">
+<<<<<<< HEAD
                 <h4 class="fw-bold text-success mb-3"><?= htmlspecialchars($contact['nama_sekolah'] ?? 'Sekolah Purwanida') ?></h4>
                 <p class="text-secondary">
                     <?= htmlspecialchars($contact['deskripsi_hero'] ?? 'Mewujudkan pendidikan berkualitas untuk melahirkan generasi yang cerdas, kreatif, dan berakhlak mulia.') ?>
@@ -354,6 +358,16 @@ All Rights Reserved.
                     <?php if(!empty($contact['facebook'])): ?><a href="<?= htmlspecialchars($contact['facebook']) ?>" class="text-white"><i class="bi bi-facebook fs-4"></i></a><?php endif; ?>
                     <?php if(!empty($contact['instagram'])): ?><a href="<?= htmlspecialchars($contact['instagram']) ?>" class="text-white"><i class="bi bi-instagram fs-4"></i></a><?php endif; ?>
                     <?php if(!empty($contact['youtube'])): ?><a href="<?= htmlspecialchars($contact['youtube']) ?>" class="text-white"><i class="bi bi-youtube fs-4"></i></a><?php endif; ?>
+=======
+                <h4 class="fw-bold text-success mb-3">Sekolah Purwanida</h4>
+                <p class="text-secondary">
+                    Mewujudkan pendidikan berkualitas untuk melahirkan generasi yang cerdas, kreatif, dan berakhlak mulia.
+                </p>
+                <div class="d-flex gap-3">
+                    <a href="#" class="text-white"><i class="bi bi-facebook fs-4"></i></a>
+                    <a href="#" class="text-white"><i class="bi bi-instagram fs-4"></i></a>
+                    <a href="#" class="text-white"><i class="bi bi-youtube fs-4"></i></a>
+>>>>>>> de354fc30b76cb77a822ce5b1d0cd7fcb2b0f525
                 </div>
             </div>
 
@@ -370,6 +384,7 @@ All Rights Reserved.
             <div class="col-md-4 mb-4">
                 <h5 class="fw-bold mb-3">Hubungi Kami</h5>
                 <ul class="list-unstyled text-secondary">
+<<<<<<< HEAD
                     <?php if(!empty($contact['alamat'])): ?>
                     <li class="mb-3">
                         <i class="bi bi-geo-alt-fill text-success me-2"></i>
@@ -399,6 +414,24 @@ All Rights Reserved.
                         <?= $contact['map_embed'] ?>
                     </li>
                     <?php endif; ?>
+=======
+                    <li class="mb-3">
+                        <i class="bi bi-geo-alt-fill text-success me-2"></i> 
+                        Jl. Raya Purwanida No. 123, Bogor, Jawa Barat
+                    </li>
+                    <li class="mb-3">
+                        <i class="bi bi-telephone-fill text-success me-2"></i> 
+                        (0251) 123-4567
+                    </li>
+                    <li class="mb-3">
+                        <i class="bi bi-envelope-fill text-success me-2"></i> 
+                        info@sekolahpurwanida.sch.id
+                    </li>
+                    <li class="mb-3">
+                        <i class="bi bi-clock-fill text-success me-2"></i> 
+                        Senin - Jumat: 07.00 - 15.00
+                    </li>
+>>>>>>> de354fc30b76cb77a822ce5b1d0cd7fcb2b0f525
                 </ul>
             </div>
         </div>
@@ -406,10 +439,16 @@ All Rights Reserved.
         <hr class="border-secondary my-4">
         
         <div class="text-center text-secondary">
+<<<<<<< HEAD
             <p class="mb-0">&copy; <?= date('Y') ?> <?= htmlspecialchars($contact['nama_sekolah'] ?? 'Sekolah Purwanida') ?>. All Rights Reserved.</p>
         </div>
     </div>
 >>>>>>> 92e231ab83d5ac61c42aa5330edc5e9978199a6e
+=======
+            <p class="mb-0">&copy; <?= date('Y') ?> Sekolah Purwanida. All Rights Reserved.</p>
+        </div>
+    </div>
+>>>>>>> de354fc30b76cb77a822ce5b1d0cd7fcb2b0f525
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

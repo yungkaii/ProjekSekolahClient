@@ -21,6 +21,7 @@ include 'includes/header.php';
     .navbar-brand, .nav-link {
         font-family: 'Open Sans', sans-serif !important;
     }
+<<<<<<< HEAD
 
     /* Hero sambutan improvements */
     .hero-section {
@@ -117,6 +118,8 @@ include 'includes/header.php';
         /* question mark icon to suggest uncertainty */
         background: url('https://cdn-icons-png.flaticon.com/512/545/545682.png') no-repeat center/contain;
     }
+=======
+>>>>>>> de354fc30b76cb77a822ce5b1d0cd7fcb2b0f525
 </style>
 <?php 
 // =========================================================================
@@ -139,6 +142,7 @@ if(!empty($p['gambar_hero']) && file_exists("assets/img_sekolah/".$p['gambar_her
 <section class="hero-section" style="background-image: url('<?= $gambar_hero ?>');">
     <div class="hero-overlay"></div>
     <div class="hero-content">
+<<<<<<< HEAD
         <div class="container">
             <div class="hero-text-box text-center">
                 <h1 class="display-3 fw-bold">Selamat Datang di <br><?= $p['nama_sekolah'] ?? 'Sekolah Purwanida' ?></h1>
@@ -150,6 +154,15 @@ if(!empty($p['gambar_hero']) && file_exists("assets/img_sekolah/".$p['gambar_her
 </section>
 
 <section id="tentang" class="section py-6 bg-white">
+=======
+        <h1 class="display-3 fw-bold">Selamat Datang di <br><?= $p['nama_sekolah'] ?? 'Sekolah Purwanida' ?></h1>
+        <p class="lead mt-4 text-white"><?= $p['deskripsi_hero'] ?? 'Mencetak Generasi Cerdas, Berkarakter, dan Berakhlak Mulia' ?></p>
+        <a href="#tentang" class="btn btn-success btn-lg rounded-pill mt-3 px-5">Selengkapnya</a>
+    </div>
+</section>
+
+<section id="tentang" class="py-5 bg-white">
+>>>>>>> de354fc30b76cb77a822ce5b1d0cd7fcb2b0f525
     <div class="container my-5">
         <div class="row align-items-center">
             <div class="col-md-6 mb-4">
@@ -171,6 +184,7 @@ if(!empty($p['gambar_hero']) && file_exists("assets/img_sekolah/".$p['gambar_her
                     </div>
             
             <div class="col-md-6">
+<<<<<<< HEAD
                 <div class="sambutan-card">
                     <h4 class="text-success fw-bold">Tentang Kami</h4>
                     <h2 class="mb-4 fw-bold">Sambutan Kepala Sekolah</h2>
@@ -180,6 +194,16 @@ if(!empty($p['gambar_hero']) && file_exists("assets/img_sekolah/".$p['gambar_her
                     </div>
                     
                     <ul class="list-unstyled mt-4">
+=======
+                <h4 class="text-success fw-bold">Tentang Kami</h4>
+                <h2 class="mb-4 fw-bold">Sambutan Kepala Sekolah</h2>
+                
+                <div class="text-secondary" style="line-height: 1.8; text-align: justify;">
+                    <?= nl2br($p['isi_profil'] ?? 'Selamat datang di website resmi sekolah kami.') ?>
+                </div>
+                
+                <ul class="list-unstyled mt-4">
+>>>>>>> de354fc30b76cb77a822ce5b1d0cd7fcb2b0f525
                     <li class="mb-2">
                         <i class="bi bi-check-circle-fill text-success me-2"></i> 
                         <?= !empty($p['keunggulan_1']) ? $p['keunggulan_1'] : 'Kurikulum Berkualitas' ?>
@@ -198,6 +222,7 @@ if(!empty($p['gambar_hero']) && file_exists("assets/img_sekolah/".$p['gambar_her
     </div>
 </section>
 
+<<<<<<< HEAD
 <!-- New visi & misi section below sambutan -->
 <section id="visi-misi" class="section py-6 bg-light">
     <div class="container my-5">
@@ -245,6 +270,9 @@ if(!empty($p['gambar_hero']) && file_exists("assets/img_sekolah/".$p['gambar_her
 </section>
 
 <section id="berita" class="section py-6 bg-light">
+=======
+<section id="berita" class="py-5 bg-light">
+>>>>>>> de354fc30b76cb77a822ce5b1d0cd7fcb2b0f525
     <div class="container my-5">
         <div class="text-center mb-5">
             <h4 class="text-success fw-bold">Informasi Terkini</h4>
@@ -283,7 +311,11 @@ if(!empty($p['gambar_hero']) && file_exists("assets/img_sekolah/".$p['gambar_her
     </div>
 </section>
 
+<<<<<<< HEAD
 <section id="galeri" class="section py-6 bg-white">
+=======
+<section id="galeri" class="py-5 bg-white">
+>>>>>>> de354fc30b76cb77a822ce5b1d0cd7fcb2b0f525
     <div class="container my-5">
         <div class="text-center mb-5">
             <h4 class="text-success fw-bold">Dokumentasi</h4>
@@ -308,11 +340,22 @@ if(!empty($p['gambar_hero']) && file_exists("assets/img_sekolah/".$p['gambar_her
                         $judul_galeri = isset($g['judul']) ? $g['judul'] : ""; 
             ?>
             <div class="col-md-4 col-sm-6">
+<<<<<<< HEAD
                 <div class="card border-0 shadow rounded-3 overflow-hidden h-100 position-relative">
                     <img src="<?= $img_galeri ?>" class="w-100" alt="Galeri" style="height: 250px; object-fit: cover;">
                     <div class="card-footer position-absolute bottom-0 start-0 w-100 p-3 text-center text-white" style="background: rgba(0,0,0,0.6);">
                         <h5 class="fw-bold mb-0"><?= $judul_galeri ?></h5>
                     </div>
+=======
+                <div class="card border-0 shadow rounded-3 overflow-hidden h-100">
+                    
+                    <img src="<?= $img_galeri ?>" class="w-100" alt="Galeri" style="height: 250px; object-fit: cover;">
+                    
+                    <div class="card-footer bg-dark border-0 p-3 text-center">
+                        <h5 class="fw-bold mb-0 text-white"><?= $judul_galeri ?></h5>
+                    </div>
+
+>>>>>>> de354fc30b76cb77a822ce5b1d0cd7fcb2b0f525
                 </div>
             </div>
             <?php 
@@ -328,6 +371,7 @@ if(!empty($p['gambar_hero']) && file_exists("assets/img_sekolah/".$p['gambar_her
     </div>
 </section>
 
+<<<<<<< HEAD
 <section id="ekskul" class="py-6 bg-light">
     <div class="container my-5">
         
@@ -335,16 +379,30 @@ if(!empty($p['gambar_hero']) && file_exists("assets/img_sekolah/".$p['gambar_her
             <h5 class="text-success fw-semibold text-uppercase">Pengembangan Diri</h5>
             <h2 class="fw-bold display-6">Ekstrakurikuler</h2>
             <div class="mx-auto mt-3" style="width:80px;height:4px;background:#198754;border-radius:10px;"></div>
+=======
+<section id="ekskul" class="py-5 bg-light">
+    <div class="container my-5">
+        <div class="text-center mb-5">
+            <h4 class="text-success fw-bold">Pengembangan Diri</h4>
+            <h2 class="section-title d-inline-block text-dark">Ekstrakurikuler</h2>
+>>>>>>> de354fc30b76cb77a822ce5b1d0cd7fcb2b0f525
         </div>
 
         <div class="row g-4 justify-content-center">
             <?php
+<<<<<<< HEAD
+=======
+            // Pastikan koneksi sudah ada
+            // include 'config/koneksi.php'; (Jika belum ada di atas)
+            
+>>>>>>> de354fc30b76cb77a822ce5b1d0cd7fcb2b0f525
             $cek_ekskul = mysqli_query($koneksi, "SHOW TABLES LIKE 'ekstrakurikuler'");
             if(mysqli_num_rows($cek_ekskul) > 0){
                 $q_ekskul = mysqli_query($koneksi, "SELECT * FROM ekstrakurikuler ORDER BY id DESC");
                 if(mysqli_num_rows($q_ekskul) > 0){
                     while($e = mysqli_fetch_assoc($q_ekskul)){
             ?>
+<<<<<<< HEAD
             
             <div class="col-lg-4 col-md-6">
                 <div class="card ekskul-card border-0 shadow-sm rounded-4 overflow-hidden h-100">
@@ -368,12 +426,29 @@ if(!empty($p['gambar_hero']) && file_exists("assets/img_sekolah/".$p['gambar_her
                 } else {
                     echo "<div class='text-center text-muted'>Belum ada data ekskul.</div>";
                 }
+=======
+            <div class="col-md-4 col-sm-6">
+                <div class="card h-100 shadow-sm border-0 rounded-4 overflow-hidden hover-effect">
+                    <div style="height: 220px; overflow: hidden;">
+                        <img src="assets/img_ekskul/<?= $e['gambar'] ?>" class="w-100 h-100" style="object-fit: cover; transition: 0.3s;" alt="<?= $e['nama_ekskul'] ?>">
+                    </div>
+                    
+                    <div class="card-body text-center p-4">
+                        <h4 class="fw-bold text-dark mb-0"><?= $e['nama_ekskul'] ?></h4>
+                    </div>
+                </div>
+            </div>
+            <?php 
+                    }
+                } else { echo "<div class='text-center text-muted'>Belum ada data ekskul.</div>"; }
+>>>>>>> de354fc30b76cb77a822ce5b1d0cd7fcb2b0f525
             }
             ?>
         </div>
     </div>
 </section>
 
+<<<<<<< HEAD
 <style>
 .ekskul-card {
     transition: all 0.3s ease;
@@ -406,4 +481,6 @@ if(!empty($p['gambar_hero']) && file_exists("assets/img_sekolah/".$p['gambar_her
 }
 </style>
 
+=======
+>>>>>>> de354fc30b76cb77a822ce5b1d0cd7fcb2b0f525
 <?php include 'includes/footer.php'; ?>
