@@ -109,14 +109,11 @@ $data  = mysqli_fetch_assoc($query);
 
         <form action="proses.php" method="POST" enctype="multipart/form-data">
             <input type="hidden" name="id" value="1">
-<<<<<<< HEAD
             <?php
             // ensure all expected keys exist to avoid notices
             $fields = ['alamat','telepon','email','jam_operasional','facebook','instagram','youtube','visi','misi'];
             foreach($fields as $f){ if(!isset($data[$f])) $data[$f] = ''; }
             ?>
-=======
->>>>>>> de354fc30b76cb77a822ce5b1d0cd7fcb2b0f525
 
             <div class="card card-custom p-4 shadow-sm">
                 <h5 class="section-title"><i class="bi bi-info-circle"></i> 1. Identitas & Banner</h5>
@@ -125,7 +122,6 @@ $data  = mysqli_fetch_assoc($query);
                     <label class="form-label">Nama Sekolah</label>
                     <input type="text" name="nama_sekolah" class="form-control" value="<?= $data['nama_sekolah'] ?>" required>
                 </div>
-<<<<<<< HEAD
 
                 <div class="mb-3">
                     <label class="form-label">Logo Navbar</label><br>
@@ -137,8 +133,6 @@ $data  = mysqli_fetch_assoc($query);
                     <input type="file" name="logo" class="form-control mt-1" accept="image/*">
                     <small class="text-secondary fst-italic">*Upload jika ingin mengganti logo</small>
                 </div>
-=======
->>>>>>> de354fc30b76cb77a822ce5b1d0cd7fcb2b0f525
                 
                 <div class="mb-3">
                     <label class="form-label">Deskripsi Banner</label>
@@ -172,7 +166,6 @@ $data  = mysqli_fetch_assoc($query);
                 </div>
             </div>
 
-<<<<<<< HEAD
             <!-- Visi & Misi card -->
             <div class="card card-custom p-4 shadow-sm">
                 <h5 class="section-title"><i class="bi bi-eye-fill"></i> Visi & Misi</h5>
@@ -223,8 +216,6 @@ $data  = mysqli_fetch_assoc($query);
                 </div>
             </div>
 
-=======
->>>>>>> de354fc30b76cb77a822ce5b1d0cd7fcb2b0f525
             <div class="card card-custom p-4 shadow-sm">
                 <h5 class="section-title"><i class="bi bi-check-circle"></i> 3. Poin Keunggulan</h5>
                 <div class="row g-3">

@@ -1,6 +1,5 @@
 <?php
 if(isset($koneksi)){
-<<<<<<< HEAD
     $q_info = mysqli_query($koneksi, "SELECT nama_sekolah, logo FROM profil_sekolah WHERE id=1");
     $d_info = mysqli_fetch_assoc($q_info);
     $nama_sekolah = $d_info ? $d_info['nama_sekolah'] : "Sekolah Purwanida";
@@ -8,18 +7,10 @@ if(isset($koneksi)){
 } else {
     $nama_sekolah = "Sekolah Purwanida";
     $logo_file = '';
-=======
-    $q_info = mysqli_query($koneksi, "SELECT nama_sekolah FROM profil_sekolah WHERE id=1");
-    $d_info = mysqli_fetch_assoc($q_info);
-    $nama_sekolah = $d_info ? $d_info['nama_sekolah'] : "Sekolah Purwanida";
-} else {
-    $nama_sekolah = "Sekolah Purwanida";
->>>>>>> de354fc30b76cb77a822ce5b1d0cd7fcb2b0f525
 }
 ?>
 <nav class="navbar navbar-expand-lg navbar-light bg-white sticky-top shadow-sm">
   <div class="container-fluid px-4"> 
-<<<<<<< HEAD
     <a class="navbar-brand fw-bold text-success d-flex align-items-center" href="index.php">
         <?php if(!empty($logo_file) && file_exists('assets/img/'.$logo_file)): ?>
             <img src="assets/img/<?= $logo_file ?>" alt="Logo" height="40" class="me-2" style="object-fit: contain;" />
@@ -27,10 +18,6 @@ if(isset($koneksi)){
             <i class="bi bi-mortarboard-fill me-2"></i>
         <?php endif; ?>
         <?= $nama_sekolah ?>
-=======
-    <a class="navbar-brand fw-bold text-success" href="index.php">
-        <i class="bi bi-mortarboard-fill me-2"></i> <?= $nama_sekolah ?>
->>>>>>> de354fc30b76cb77a822ce5b1d0cd7fcb2b0f525
     </a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
       <span class="navbar-toggler-icon"></span>

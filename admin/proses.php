@@ -27,7 +27,6 @@ if(isset($_POST['login'])){
 }
 
 // ==========================================================
-<<<<<<< HEAD
 // 2. KELOLA PENGATURAN SEKOLAH (profil_sekolah)
 // ==========================================================
 if(isset($_POST['update_profil'])){
@@ -153,46 +152,11 @@ if(isset($_POST['update_profil'])){
 
     // assemble update
     $query = "UPDATE profil_sekolah SET " . implode(', ', $fields) . " WHERE id='$id'";
-=======
-// 2. KELOLA PENGATURAN / IDENTITAS SEKOLAH
-// ==========================================================
-if(isset($_POST['update_profil'])){ // Pastikan tombol di pengaturan.php namanya 'update_profil'
-    $id = $_POST['id']; // Pastikan ada input hidden id di pengaturan.php
-    $nama = mysqli_real_escape_string($koneksi, $_POST['nama']);
-    $email = mysqli_real_escape_string($koneksi, $_POST['email']);
-    $telp = mysqli_real_escape_string($koneksi, $_POST['telp']);
-    $alamat = mysqli_real_escape_string($koneksi, $_POST['alamat']);
-    $gmaps = mysqli_real_escape_string($koneksi, $_POST['gmaps']);
-
-    // Update Logo Jika Ada
-    if($_FILES['logo']['name'] != ""){
-        $foto = $_FILES['logo']['name'];
-        $tmp = $_FILES['logo']['tmp_name'];
-        $nama_baru = "logo_".time().$foto;
-        $path = "../assets/img/".$nama_baru;
-        
-        // Hapus logo lama
-        $data = mysqli_fetch_array(mysqli_query($koneksi, "SELECT * FROM identitas WHERE id='$id'"));
-        if(file_exists("../assets/img/".$data['logo_sekolah'])){
-            unlink("../assets/img/".$data['logo_sekolah']);
-        }
-        move_uploaded_file($tmp, $path);
-        
-        $query = "UPDATE identitas SET nama_sekolah='$nama', email_sekolah='$email', telepon_sekolah='$telp', alamat_sekolah='$alamat', google_maps='$gmaps', logo_sekolah='$nama_baru' WHERE id='$id'";
-    } else {
-        $query = "UPDATE identitas SET nama_sekolah='$nama', email_sekolah='$email', telepon_sekolah='$telp', alamat_sekolah='$alamat', google_maps='$gmaps' WHERE id='$id'";
-    }
-
->>>>>>> de354fc30b76cb77a822ce5b1d0cd7fcb2b0f525
     $update = mysqli_query($koneksi, $query);
     if($update){
         echo "<script>alert('Pengaturan Berhasil Diubah'); window.location='pengaturan.php';</script>";
     } else {
-<<<<<<< HEAD
         echo "<script>alert('Gagal Mengubah Pengaturan: " . mysqli_error($koneksi) . "'); window.location='pengaturan.php';</script>";
-=======
-        echo "<script>alert('Gagal Mengubah Pengaturan'); window.location='pengaturan.php';</script>";
->>>>>>> de354fc30b76cb77a822ce5b1d0cd7fcb2b0f525
     }
 }
 
