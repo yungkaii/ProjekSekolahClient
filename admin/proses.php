@@ -161,7 +161,40 @@ if(isset($_POST['update_profil'])){
 }
 
 // ==========================================================
-// 3. KELOLA BERITA
+// 3. KELOLA KOMITE (gambar atau HTML)
+// ==========================================================
+if(isset($_POST['save_komite'])){
+    $file = __DIR__ . '/../assets/content/komite.html';
+    // if image uploaded
+    if(isset($_FILES['komite_img']) && $_FILES['komite_img']['name'] != ""){
+        $foto = $_FILES['komite_img']['name'];
+        $tmp = $_FILES['komite_img']['tmp_name'];
+        $nama_baru = "komite_".time()."_".$foto;
+        $dir = "../assets/img_komite/";
+        if(!is_dir($dir)) mkdir($dir, 0755, true);
+        $path = $dir . $nama_baru;
+        // remove previous image if exists in file
+        if(file_exists($file)){
+            $old = file_get_contents($file);
+            if(preg_match('/<img\s+[^>]*src="([^"]+)"/i', $old, $m)){
+                $oldpath = __DIR__ . '/../' . $m[1];
+                if(file_exists($oldpath)) unlink($oldpath);
+            }
+        }
+        if(move_uploaded_file($tmp, $path)){
+            $html = '<img src="assets/img_komite/'.$nama_baru.'" class="img-fluid" alt="Komite Sekolah">';
+            file_put_contents($file, $html);
+        }
+    } else {
+        // use manual HTML (overwrite)
+        $content = $_POST['content'] ?? '';
+        file_put_contents($file, $content);
+    }
+    echo "<script>alert('Data Komite berhasil diperbarui'); window.location='komite.php';</script>";
+}
+
+// ==========================================================
+// 4. KELOLA BERITA
 // ==========================================================
 if(isset($_POST['simpan_berita'])){
     $judul = mysqli_real_escape_string($koneksi, $_POST['judul']);

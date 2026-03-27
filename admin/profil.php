@@ -20,6 +20,18 @@ if(!$data){
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body class="bg-light p-4">
+<div class="d-flex">
+    <?php include __DIR__ . '/dashboard_sidebar.php'; ?>
+<script>
+document.addEventListener('DOMContentLoaded', function(){
+    var path = window.location.pathname.split('/').pop();
+    var link = document.querySelector('.sidebar a.nav-link[href="'+path+'"]');
+    if(link){ link.classList.add('active');
+        var collapseDiv = link.closest('.collapse');
+        if(collapseDiv){ new bootstrap.Collapse(collapseDiv,{toggle:false}).show(); }
+    }
+});
+</script>
     <div class="container col-md-8">
         <div class="d-flex justify-content-between mb-3">
             <h3>Pengaturan Website</h3>
@@ -65,5 +77,7 @@ if(!$data){
             </div>
         </div>
     </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

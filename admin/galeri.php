@@ -64,42 +64,8 @@ if(!isset($_SESSION['status_login'])){
 <body>
 
 <div class="d-flex">
-    <div class="sidebar col-md-2 d-none d-md-block p-3">
-        <h4 class="fw-bold text-center text-white mb-4 mt-2">ADMIN</h4>
-        <ul class="nav flex-column">
-            <li class="nav-item">
-                <a class="nav-link" href="dashboard.php">
-                    <i class="bi bi-grid-fill me-2"></i> Dashboard
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="berita.php">
-                    <i class="bi bi-newspaper me-2"></i> Kelola Berita
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link active" href="galeri.php">
-                    <i class="bi bi-images me-2"></i> Kelola Galeri
-                </a>
-            </li>
-            
-            <li class="nav-item">
-                <a class="nav-link" href="ekskul.php">
-                    <i class="bi bi-stars me-2"></i> Ekstrakurikuler
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="pengaturan.php">
-                    <i class="bi bi-gear-fill me-2"></i> Pengaturan
-                </a>
-            </li>
-            <li class="nav-item mt-4">
-                <a class="nav-link text-danger" href="logout.php">
-                    <i class="bi bi-box-arrow-left me-2"></i> Logout
-                </a>
-            </li>
-        </ul>
-    </div>
+    <?php include __DIR__ . '/dashboard_sidebar.php'; ?>
+
 
     <div class="flex-grow-1 p-4">
         <div class="d-flex justify-content-between align-items-center mb-4">
@@ -173,6 +139,18 @@ if(!isset($_SESSION['status_login'])){
 </div>
 
 <div class="modal fade" id="modalTambah" tabindex="-1">
+<script>
+// activate collapse if nested link is active
+document.addEventListener('DOMContentLoaded', function(){
+    const path = window.location.pathname.split('/').pop();
+    const link = document.querySelector('.sidebar a.nav-link[href="'+path+'"]');
+    if(link){
+        link.classList.add('active');
+        const collapseDiv = link.closest('.collapse');
+        if(collapseDiv){ new bootstrap.Collapse(collapseDiv,{toggle:false}).show(); }
+    }
+});
+</script>
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">

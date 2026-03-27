@@ -123,42 +123,7 @@ $nama_user = $_SESSION['user_global'] ?? 'Admin';
 
 <div class="d-flex flex-column flex-md-row">
     
-    <div class="sidebar col-12 col-md-2 p-3">
-        <h4 class="fw-bold text-center text-white mb-4 mt-2">ADMIN</h4>
-        <ul class="nav flex-column">
-            <li class="nav-item">
-                <a class="nav-link active" href="dashboard.php">
-                    <i class="bi bi-grid-fill me-2"></i> Dashboard
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="berita.php">
-                    <i class="bi bi-newspaper me-2"></i> Kelola Berita
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="galeri.php">
-                    <i class="bi bi-images me-2"></i> Kelola Galeri
-                </a>
-            </li>
-            
-            <li class="nav-item">
-                <a class="nav-link" href="ekskul.php">
-                    <i class="bi bi-stars me-2"></i> Ekstrakurikuler
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="pengaturan.php">
-                    <i class="bi bi-gear-fill me-2"></i> Pengaturan
-                </a>
-            </li>
-            <li class="nav-item mt-4">
-                <a class="nav-link text-danger" href="logout.php">
-                    <i class="bi bi-box-arrow-left me-2"></i> Logout
-                </a>
-            </li>
-        </ul>
-    </div>
+    <?php include __DIR__ . '/dashboard_sidebar.php'; ?>
 
     <div class="flex-grow-1 bg-dark">
         

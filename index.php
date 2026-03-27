@@ -1,241 +1,1123 @@
-<?php 
-// 1. Hubungkan ke Database & Tampilan Dasar
+<?php
 include 'config/koneksi.php';
 include 'includes/header.php';
-
-// =========================================================================
-// TAMBAHAN: FONT OPEN SANS (Disuntikkan disini agar menimpa font bawaan)
-// =========================================================================
 ?>
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
 
 <style>
-    /* Paksa semua elemen menggunakan Open Sans */
-    body, h1, h2, h3, h4, h5, h6, p, a, span, div, li, small {
-        font-family: 'Open Sans', sans-serif !important;
-    }
-    
-    /* Perbaikan agar Navbar tidak berantakan fontnya */
-    .navbar-brand, .nav-link {
-        font-family: 'Open Sans', sans-serif !important;
+:root{
+    --primary-color: #198754;
+    --primary-dark: #146c43;
+    --secondary-color: #20c997;
+    --accent-color: #f59e0b;
+    --dark-color: #14202b;
+    --text-color: #334155;
+    --muted-color: #64748b;
+    --light-bg: #f7faf8;
+    --white: #ffffff;
+    --border-soft: rgba(15, 23, 42, 0.08);
+    --shadow-sm: 0 10px 30px rgba(15, 23, 42, 0.06);
+    --shadow-md: 0 18px 45px rgba(15, 23, 42, 0.10);
+    --shadow-lg: 0 25px 60px rgba(15, 23, 42, 0.16);
+    --radius-sm: 14px;
+    --radius-md: 20px;
+    --radius-lg: 28px;
+    --transition-smooth: all 0.35s ease;
+}
+
+/* =========================
+   GLOBAL
+========================= */
+html{
+    scroll-behavior: smooth;
+}
+
+body, h1, h2, h3, h4, h5, h6, p, a, span, div, li, small, strong {
+    font-family: 'Open Sans', sans-serif !important;
+}
+
+body{
+    color: var(--text-color);
+    background:
+        radial-gradient(circle at top left, rgba(25,135,84,0.07), transparent 20%),
+        radial-gradient(circle at bottom right, rgba(32,201,151,0.06), transparent 22%),
+        linear-gradient(180deg, #ffffff 0%, #f8fbf9 100%);
+    overflow-x: hidden;
+}
+
+.navbar-brand, .nav-link {
+    font-family: 'Open Sans', sans-serif !important;
+}
+
+a{
+    text-decoration: none;
+    transition: var(--transition-smooth);
+}
+
+img{
+    max-width: 100%;
+}
+
+.section{
+    position: relative;
+    padding: 95px 0;
+}
+
+.section-soft{
+    background: var(--light-bg);
+}
+
+.section-title-wrap{
+    max-width: 760px;
+    margin: 0 auto 55px;
+    text-align: center;
+}
+
+.section-badge{
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 18px;
+    border-radius: 999px;
+    background: rgba(25,135,84,0.10);
+    color: var(--primary-color);
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border: 1px solid rgba(25,135,84,0.10);
+    margin-bottom: 18px;
+}
+
+.section-title{
+    font-size: clamp(2rem, 3vw, 2.8rem);
+    font-weight: 800;
+    line-height: 1.2;
+    color: var(--dark-color);
+    margin-bottom: 12px;
+    letter-spacing: -0.7px;
+}
+
+.section-subtitle{
+    font-size: 1rem;
+    line-height: 1.9;
+    color: var(--muted-color);
+    margin: 0;
+}
+
+.btn-main{
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    color: #fff;
+    border: none;
+    padding: 14px 24px;
+    border-radius: 999px;
+    font-weight: 700;
+    box-shadow: 0 12px 28px rgba(25,135,84,0.22);
+}
+
+.btn-main:hover{
+    color: #fff;
+    transform: translateY(-3px);
+    box-shadow: 0 18px 38px rgba(25,135,84,0.28);
+}
+
+.btn-outline-soft{
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(255,255,255,0.10);
+    color: #fff;
+    border: 1px solid rgba(255,255,255,0.20);
+    padding: 14px 24px;
+    border-radius: 999px;
+    font-weight: 700;
+    backdrop-filter: blur(10px);
+}
+
+.btn-outline-soft:hover{
+    color: #fff;
+    transform: translateY(-3px);
+    background: rgba(255,255,255,0.18);
+}
+
+.card-soft{
+    background: rgba(255,255,255,0.92);
+    border: 1px solid rgba(255,255,255,0.70);
+    box-shadow: var(--shadow-md);
+    border-radius: var(--radius-lg);
+    backdrop-filter: blur(10px);
+}
+
+.text-gradient{
+    background: linear-gradient(135deg, #ffffff 0%, #d2f8e8 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* =========================
+   ANIMATION
+========================= */
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(28px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeInLeft {
+    from { opacity: 0; transform: translateX(-28px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+@keyframes fadeInRight {
+    from { opacity: 0; transform: translateX(28px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+@keyframes floatSoft {
+    0%,100%{ transform: translateY(0px); }
+    50%{ transform: translateY(-8px); }
+}
+
+.scroll-animate{
+    animation: fadeInUp 0.8s ease both;
+}
+.delay-1{ animation-delay: 0.12s; }
+.delay-2{ animation-delay: 0.24s; }
+.delay-3{ animation-delay: 0.36s; }
+
+/* =========================
+   HERO
+========================= */
+.hero-section{
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    color: #fff;
+    overflow: hidden;
+    background-size: cover;
+    background-position: center;
+}
+
+.hero-section::before{
+    content:'';
+    position:absolute;
+    inset:0;
+    background:
+        linear-gradient(120deg, rgba(10,16,24,0.78), rgba(10,16,24,0.42)),
+        linear-gradient(135deg, rgba(25,135,84,0.34), rgba(32,201,151,0.22));
+    z-index:1;
+}
+
+.hero-section::after{
+    content:'';
+    position:absolute;
+    inset:0;
+    background:
+        radial-gradient(circle at 20% 25%, rgba(255,255,255,0.10), transparent 20%),
+        radial-gradient(circle at 80% 15%, rgba(255,255,255,0.08), transparent 20%);
+    z-index:1;
+}
+
+.hero-content{
+    position: relative;
+    z-index: 3;
+    width: 100%;
+    padding: 130px 0 90px;
+}
+
+.hero-grid{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: 24px;
+}
+
+.hero-copy{
+    max-width: 760px;
+    width: 100%;
+    text-align: center;
+}
+
+.hero-kicker{
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 18px;
+    border-radius: 999px;
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.18);
+    backdrop-filter: blur(8px);
+    margin-bottom: 22px;
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.hero-copy h1{
+    font-size: clamp(2.4rem, 5vw, 4.8rem);
+    font-weight: 800;
+    line-height: 1.08;
+    letter-spacing: -1.6px;
+    margin-bottom: 22px;
+    text-shadow: 0 8px 30px rgba(0,0,0,0.25);
+}
+
+.hero-copy .lead{
+    font-size: 1.12rem;
+    line-height: 1.95;
+    color: rgba(255,255,255,0.88);
+    max-width: 650px;
+    margin: 0 auto 30px;
+    text-align: center;
+}
+
+.hero-actions{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    justify-content: center;
+    margin-top: 18px;
+}
+
+.hero-panel{
+    position: relative;
+    background: rgba(255,255,255,0.10);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 30px;
+    padding: 28px;
+    backdrop-filter: blur(12px);
+    box-shadow: 0 20px 50px rgba(0,0,0,0.14);
+    animation: floatSoft 4s ease-in-out infinite;
+}
+
+.hero-panel-top{
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 18px;
+}
+
+.hero-panel-icon{
+    width: 62px;
+    height: 62px;
+    border-radius: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #fff, #d7fff0);
+    color: var(--primary-color);
+    font-size: 1.6rem;
+    flex-shrink: 0;
+}
+
+.hero-panel h4{
+    color: #fff;
+    font-size: 1.15rem;
+    font-weight: 800;
+    margin: 0;
+}
+
+.hero-panel p{
+    color: rgba(255,255,255,0.82);
+    line-height: 1.9;
+    font-size: 0.96rem;
+    margin: 0;
+}
+
+.hero-mini-stats{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+    margin-top: 18px;
+}
+
+.hero-stat{
+    background: rgba(255,255,255,0.08);
+    border-radius: 18px;
+    padding: 16px;
+    border: 1px solid rgba(255,255,255,0.10);
+}
+
+.hero-stat strong{
+    display: block;
+    color: #fff;
+    font-size: 1.25rem;
+    font-weight: 800;
+    margin-bottom: 4px;
+}
+
+.hero-stat span{
+    color: rgba(255,255,255,0.78);
+    font-size: 0.88rem;
+}
+
+/* =========================
+   TENTANG
+========================= */
+.tentang-wrap{
+    position: relative;
+}
+
+.tentang-image-box{
+    position: relative;
+    border-radius: 30px;
+    overflow: hidden;
+    box-shadow: var(--shadow-lg);
+    background: transparent;
+    min-height: 0;
+}
+
+.tentang-image-box img{
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: cover;
+    transition: 0.5s ease;
+}
+
+.tentang-image-box:hover img{
+    transform: scale(1.04);
+}
+
+.tentang-floating-card{
+    position: absolute;
+    bottom: 24px;
+    right: 24px;
+    background: rgba(255,255,255,0.95);
+    border-radius: 22px;
+    padding: 18px 20px;
+    box-shadow: 0 18px 42px rgba(15,23,42,0.14);
+    max-width: 260px;
+}
+
+.tentang-floating-card h5{
+    font-size: 1rem;
+    font-weight: 800;
+    color: var(--dark-color);
+    margin-bottom: 8px;
+}
+
+.tentang-floating-card p{
+    margin: 0;
+    color: var(--muted-color);
+    font-size: 0.92rem;
+    line-height: 1.8;
+}
+
+.sambutan-card{
+    padding: 34px;
+    border-radius: 30px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.96), rgba(248,251,249,0.96));
+    border: 1px solid rgba(15,23,42,0.06);
+    box-shadow: var(--shadow-md);
+}
+
+.sambutan-card h2{
+    font-size: clamp(1.8rem, 3vw, 2.5rem);
+    line-height: 1.25;
+    color: var(--dark-color);
+    font-weight: 800;
+    margin-bottom: 18px;
+}
+
+.sambutan-card .desc{
+    color: var(--muted-color);
+    line-height: 2;
+    text-align: justify;
+    margin-bottom: 24px;
+}
+
+.sambutan-points{
+    display: grid;
+    gap: 14px;
+    margin-top: 22px;
+}
+
+.sambutan-point{
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 14px 16px;
+    border-radius: 18px;
+    background: #fff;
+    border: 1px solid rgba(15,23,42,0.06);
+}
+
+.sambutan-point i{
+    font-size: 1.2rem;
+    color: var(--primary-color);
+    margin-top: 2px;
+}
+
+.sambutan-point span{
+    color: var(--dark-color);
+    font-weight: 700;
+    line-height: 1.6;
+}
+
+/* =========================
+   VISI MISI
+========================= */
+.visi-misi-grid{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 26px;
+}
+
+.vm-card{
+    position: relative;
+    height: 100%;
+    border-radius: 28px;
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
+    border: 1px solid rgba(15,23,42,0.06);
+    background: #fff;
+    padding: 34px;
+}
+
+.vm-card::before{
+    content:'';
+    position:absolute;
+    width: 220px;
+    height: 220px;
+    border-radius: 50%;
+    top: -80px;
+    right: -80px;
+    opacity: 0.18;
+}
+
+.vm-card.visi{
+    background: linear-gradient(135deg, #edf9fb, #ffffff);
+}
+.vm-card.visi::before{
+    background: #06b6d4;
+}
+
+.vm-card.misi{
+    background: linear-gradient(135deg, #f3faee, #ffffff);
+}
+.vm-card.misi::before{
+    background: #84cc16;
+}
+
+.vm-icon{
+    width: 66px;
+    height: 66px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 20px;
+    font-size: 1.6rem;
+    margin-bottom: 18px;
+}
+
+.vm-card.visi .vm-icon{
+    background: rgba(6,182,212,0.12);
+    color: #0891b2;
+}
+.vm-card.misi .vm-icon{
+    background: rgba(132,204,22,0.12);
+    color: #65a30d;
+}
+
+.vm-card h3{
+    font-size: 1.55rem;
+    font-weight: 800;
+    margin-bottom: 14px;
+    color: var(--dark-color);
+}
+
+.vm-card p,
+.vm-card li{
+    color: var(--text-color);
+    line-height: 1.95;
+}
+
+.vm-card ul{
+    padding-left: 1.2rem;
+    margin-bottom: 0;
+}
+
+/* =========================
+   BERITA
+========================= */
+.berita-section{
+    background:
+        radial-gradient(circle at top left, rgba(25,135,84,0.06), transparent 24%),
+        radial-gradient(circle at bottom right, rgba(25,135,84,0.05), transparent 22%),
+        linear-gradient(180deg, #f7faf8 0%, #ffffff 100%);
+}
+
+.berita-grid{
+    display: grid;
+    grid-template-columns: 1.25fr 0.75fr;
+    gap: 26px;
+}
+
+.berita-featured{
+    position: relative;
+    min-height: 560px;
+    border-radius: 32px;
+    overflow: hidden;
+    box-shadow: var(--shadow-lg);
+}
+
+.berita-featured img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: 0.7s ease;
+}
+
+.berita-featured:hover img{
+    transform: scale(1.05);
+}
+
+.berita-featured-overlay{
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(8,13,19,0.86), rgba(8,13,19,0.18) 55%, rgba(8,13,19,0.04));
+}
+
+.berita-featured-body{
+    position: absolute;
+    inset: auto 0 0 0;
+    padding: 34px;
+    z-index: 2;
+    color: #fff;
+}
+
+.berita-chip{
+    display: inline-flex;
+    padding: 8px 14px;
+    background: rgba(255,255,255,0.14);
+    border: 1px solid rgba(255,255,255,0.18);
+    border-radius: 999px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    margin-bottom: 14px;
+    backdrop-filter: blur(10px);
+}
+
+.berita-meta{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    align-items: center;
+    font-size: 0.9rem;
+    margin-bottom: 12px;
+}
+
+.berita-featured-body h3{
+    font-size: clamp(1.6rem, 2.4vw, 2.2rem);
+    font-weight: 800;
+    line-height: 1.3;
+    margin-bottom: 14px;
+}
+
+.berita-featured-body p{
+    color: rgba(255,255,255,0.88);
+    line-height: 1.9;
+    margin-bottom: 20px;
+    max-width: 90%;
+}
+
+.berita-side{
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.berita-side-card{
+    display: grid;
+    grid-template-columns: 160px 1fr;
+    gap: 18px;
+    background: #fff;
+    border-radius: 26px;
+    padding: 16px;
+    box-shadow: var(--shadow-md);
+    border: 1px solid rgba(15,23,42,0.05);
+    min-height: 190px;
+    transition: var(--transition-smooth);
+}
+
+.berita-side-card:hover{
+    transform: translateY(-6px);
+    box-shadow: 0 24px 52px rgba(15,23,42,0.12);
+}
+
+.berita-side-thumb{
+    border-radius: 18px;
+    overflow: hidden;
+    height: 100%;
+}
+
+.berita-side-thumb img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: 0.5s ease;
+}
+
+.berita-side-card:hover .berita-side-thumb img{
+    transform: scale(1.05);
+}
+
+.berita-side-body{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.berita-side-body h4{
+    font-size: 1.08rem;
+    line-height: 1.45;
+    font-weight: 800;
+    color: var(--dark-color);
+    margin: 8px 0 10px;
+}
+
+.berita-side-body p{
+    color: var(--muted-color);
+    line-height: 1.8;
+    margin-bottom: 12px;
+    font-size: 0.94rem;
+}
+
+.berita-link{
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--primary-color);
+    font-weight: 700;
+}
+
+.berita-link:hover{
+    color: var(--primary-dark);
+    gap: 12px;
+}
+
+.berita-empty-box{
+    background: #fff;
+    border-radius: 28px;
+    padding: 60px 28px;
+    box-shadow: var(--shadow-md);
+    border: 1px solid rgba(15,23,42,0.06);
+    text-align: center;
+}
+
+.berita-empty-box i{
+    font-size: 2.7rem;
+    color: var(--primary-color);
+    display: block;
+    margin-bottom: 16px;
+}
+
+.berita-empty-box h4{
+    font-weight: 800;
+    color: var(--dark-color);
+    margin-bottom: 8px;
+}
+
+.berita-empty-box p{
+    margin: 0;
+    color: var(--muted-color);
+}
+
+/* =========================
+   GALERI
+========================= */
+.galeri-grid{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 22px;
+}
+
+.galeri-card{
+    position: relative;
+    border-radius: 28px;
+    overflow: hidden;
+    min-height: 280px;
+    box-shadow: var(--shadow-md);
+    background: #dbe7df;
+    transition: var(--transition-smooth);
+}
+
+.galeri-card:hover{
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-lg);
+}
+
+.galeri-card img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: 0.55s ease;
+}
+
+.galeri-card:hover img{
+    transform: scale(1.08) rotate(0.6deg);
+}
+
+.galeri-overlay{
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(8,13,19,0.88), rgba(8,13,19,0.05));
+}
+
+.galeri-caption{
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 24px;
+    z-index: 2;
+}
+
+.galeri-caption h5{
+    color: #fff;
+    margin: 0;
+    font-weight: 800;
+    font-size: 1.02rem;
+    line-height: 1.45;
+}
+
+/* =========================
+   EKSKUL
+========================= */
+.ekskul-grid{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+}
+
+.ekskul-card{
+    position: relative;
+    background: #fff;
+    border-radius: 30px;
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
+    border: 1px solid rgba(15,23,42,0.05);
+    transition: var(--transition-smooth);
+    height: 100%;
+}
+
+.ekskul-card:hover{
+    transform: translateY(-10px);
+    box-shadow: var(--shadow-lg);
+}
+
+.ekskul-thumb{
+    position: relative;
+    height: 255px;
+    overflow: hidden;
+}
+
+.ekskul-thumb img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: 0.55s ease;
+}
+
+.ekskul-card:hover .ekskul-thumb img{
+    transform: scale(1.08);
+}
+
+.ekskul-overlay{
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(25,135,84,0.20), rgba(32,201,151,0.02));
+    opacity: 0;
+    transition: var(--transition-smooth);
+}
+
+.ekskul-card:hover .ekskul-overlay{
+    opacity: 1;
+}
+
+.ekskul-body{
+    padding: 24px 22px 26px;
+    text-align: center;
+}
+
+.ekskul-body h5{
+    font-size: 1.08rem;
+    color: var(--dark-color);
+    margin: 0;
+    font-weight: 800;
+    line-height: 1.5;
+}
+
+/* =========================
+   EMPTY / ALERT
+========================= */
+.simple-empty{
+    padding: 30px 20px;
+    text-align: center;
+    color: var(--muted-color);
+    background: #fff;
+    border-radius: 20px;
+    border: 1px solid rgba(15,23,42,0.06);
+    box-shadow: var(--shadow-sm);
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+@media (max-width: 1199.98px){
+    .hero-grid{
+        grid-template-columns: 1fr;
     }
 
-    /* Hero sambutan improvements */
-    .hero-section {
-        position: relative;
-        background-size: cover;
-        background-position: center;
-        color: #fff;
-    }
-    /* Styling for kepala sekolah section (#tentang) */
-    .sambutan-card {
-        background: #ffffff;
-        padding: 2rem;
-        border-radius: 12px;
-        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    }
-    .sambutan-card h4, .sambutan-card h2 {
-        color: #0f5132;
-    }
-    .sambutan-card .text-secondary {
-        color: #495057;
-    }
-    .hero-overlay {
-        position: absolute;
-        inset: 0;
-        background: rgba(0,0,0,0.5);
-    }
-    .hero-content {
-        position: relative;
-        z-index: 2;
-        padding: 6rem 0;
-    }
-    .hero-text-box {
-        background: rgba(255,255,255,0.1);
-        padding: 2rem 2.5rem;
-        border-radius: 12px;
-        backdrop-filter: blur(5px);
-        display: inline-block;
-    }
-    .hero-content h1 {
-        text-shadow: 2px 2px 4px rgba(0,0,0,0.6);
-    }
-    .hero-content p.lead {
-        text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+    .hero-panel{
+        max-width: 520px;
     }
 
-    /* Styling untuk box visi & misi yang lebih menarik */
-    .box-visi, .box-misi {
-        border: none;
-        border-radius: 12px;
-        padding: 1.5rem;
-        position: relative;
-        overflow: hidden;
+    .berita-side{
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
     }
 
-    /* Gallery section improvements */
-    #galeri .card img {
-        border-radius: 8px;
-        transition: transform 0.3s ease;
+    .galeri-grid,
+    .ekskul-grid{
+        grid-template-columns: repeat(2, 1fr);
     }
-    #galeri .card:hover img {
-        transform: scale(1.05);
+}
+
+@media (max-width: 991.98px){
+    .section{
+        padding: 78px 0;
     }
-    #galeri .card-footer {
-        background: rgba(0,0,0,0.6);
-        transition: background 0.3s;
+
+    .tentang-image-box{
+        min-height: 420px;
     }
-    #galeri .card:hover .card-footer {
-        background: rgba(0,0,0,0.8);
+
+    .visi-misi-grid{
+        grid-template-columns: 1fr;
     }
-    #galeri .card-footer h5 {
+
+    .berita-featured{
+        min-height: 470px;
+    }
+}
+
+@media (max-width: 767.98px){
+    .hero-section{
+        min-height: auto;
+        background-attachment: scroll !important;
+    }
+
+    .hero-content{
+        padding: 120px 0 70px;
+    }
+
+    .hero-copy h1{
+        letter-spacing: -1px;
+    }
+
+    .hero-copy .lead{
         font-size: 1rem;
+        line-height: 1.85;
     }
-    .box-visi {
-        background: linear-gradient(135deg, #e0f7fa 0%, #ffffff 100%);
-    }
-    .box-misi {
-        background: linear-gradient(135deg, #f1f8e9 0%, #ffffff 100%);
-    }
-    .box-visi::before,
-    .box-misi::before {
-        content: '';
-        position: absolute;
-        width: 120px;
-        height: 120px;
-        opacity: 0.1;
-        border-radius: 50%;
-        top: -20px;
-        right: -20px;
-    }
-    .box-visi::before {
-        background: url('https://cdn-icons-png.flaticon.com/512/190/190411.png') no-repeat center/contain;
-    }
-    .box-misi::before {
-        /* question mark icon to suggest uncertainty */
-        background: url('https://cdn-icons-png.flaticon.com/512/545/545682.png') no-repeat center/contain;
-    }
-</style>
-<?php 
-// =========================================================================
 
+    .hero-actions{
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .hero-actions .btn-main,
+    .hero-actions .btn-outline-soft{
+        justify-content: center;
+        width: 100%;
+    }
+
+    .hero-panel{
+        padding: 22px;
+        border-radius: 24px;
+    }
+
+    .hero-mini-stats{
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .section-title-wrap{
+        margin-bottom: 40px;
+    }
+
+    .tentang-image-box{
+        min-height: 320px;
+        border-radius: 24px;
+    }
+
+    .tentang-floating-card{
+        position: static;
+        max-width: none;
+        margin-top: 16px;
+    }
+
+    .sambutan-card{
+        padding: 24px;
+        border-radius: 24px;
+    }
+
+    .vm-card{
+        padding: 24px;
+        border-radius: 24px;
+    }
+
+    .berita-featured{
+        min-height: 400px;
+        border-radius: 24px;
+    }
+
+    .berita-featured-body{
+        padding: 22px;
+    }
+
+    .berita-featured-body p{
+        max-width: 100%;
+        font-size: 0.95rem;
+    }
+
+    .berita-side{
+        grid-template-columns: 1fr;
+    }
+
+    .berita-side-card{
+        grid-template-columns: 1fr;
+        padding: 14px;
+        border-radius: 22px;
+        min-height: auto;
+    }
+
+    .berita-side-thumb{
+        height: 180px;
+    }
+
+    .galeri-grid,
+    .ekskul-grid{
+        grid-template-columns: 1fr;
+    }
+
+    .galeri-card{
+        min-height: 240px;
+        border-radius: 22px;
+    }
+
+    .ekskul-card{
+        border-radius: 24px;
+    }
+
+    .ekskul-thumb{
+        height: 220px;
+    }
+}
+</style>
+
+<?php
 include 'includes/navbar.php';
 
-// 2. Ambil Data Profil Sekolah (Untuk Hero & Tentang Kami)
 $q_profil = mysqli_query($koneksi, "SELECT * FROM profil_sekolah WHERE id=1");
 $p = mysqli_fetch_assoc($q_profil);
 
-// 3. Logika Gambar Banner (Hero Image)
-// Cek apakah admin sudah upload gambar hero? Dan apakah filenya ada di folder?
-$gambar_hero = "https://source.unsplash.com/random/1920x1080/?school_building"; // Default jika kosong
+function limit_text($text, $limit = 140){
+    $text = trim(strip_tags($text ?? ''));
+    if (mb_strlen($text) <= $limit) return $text;
+    return mb_substr($text, 0, $limit) . '...';
+}
 
-if(!empty($p['gambar_hero']) && file_exists("assets/img_sekolah/".$p['gambar_hero'])){
+$gambar_hero = "https://source.unsplash.com/random/1920x1080/?school_building";
+if (!empty($p['gambar_hero']) && file_exists("assets/img_sekolah/" . $p['gambar_hero'])) {
     $gambar_hero = "assets/img_sekolah/" . $p['gambar_hero'];
+}
+
+$img_profil = "https://source.unsplash.com/random/600x700/?teacher,school";
+if (!empty($p['gambar_profil']) && file_exists("assets/img_sekolah/" . $p['gambar_profil'])) {
+    $img_profil = "assets/img_sekolah/" . $p['gambar_profil'];
 }
 ?>
 
 <section class="hero-section" style="background-image: url('<?= $gambar_hero ?>');">
-    <div class="hero-overlay"></div>
     <div class="hero-content">
         <div class="container">
-            <div class="hero-text-box text-center">
-                <h1 class="display-3 fw-bold">Selamat Datang di <br><?= $p['nama_sekolah'] ?? 'Sekolah Purwanida' ?></h1>
-                <p class="lead mt-4 text-white"><?= $p['deskripsi_hero'] ?? 'Mencetak Generasi Cerdas, Berkarakter, dan Berakhlak Mulia' ?></p>
-                <a href="#tentang" class="btn btn-success btn-lg btn-rounded mt-3 px-5">Selengkapnya</a>
-            </div>
-        </div>
-    </div>
-</section>
-
-<section id="tentang" class="section py-6 bg-white">
-    <div class="container my-5">
-        <div class="row align-items-center">
-            <div class="col-md-6 mb-4">
-                <?php
-                // Cek apakah admin sudah upload foto profil?
-                if(!empty($p['gambar_profil']) && file_exists("assets/img_sekolah/".$p['gambar_profil'])){
-                    $img_profil = "assets/img_sekolah/" . $p['gambar_profil'];
-                } else {
-                    // Gambar cadangan jika belum ada upload
-                    $img_profil = "https://source.unsplash.com/random/600x400/?teacher,headmaster"; 
-                }
-                ?>
-                    <div class="text-center">
-                        <img src="<?= $img_profil ?>" 
-                            class="img-fluid rounded-3 shadow" 
-                            alt="Tentang Kami" 
-                            style="max-height: 350px; width: auto; max-width: 100%; object-fit: cover;">
-                        </div>            
+            <div class="hero-grid">
+                <div class="hero-copy scroll-animate">
+                    <div class="hero-kicker">
+                        <i class="bi bi-stars"></i>
+                        Website Resmi Sekolah
                     </div>
-            
-            <div class="col-md-6">
-                <div class="sambutan-card">
-                    <h4 class="text-success fw-bold">Tentang Kami</h4>
-                    <h2 class="mb-4 fw-bold">Sambutan Kepala Sekolah</h2>
-                    
-                    <div class="text-secondary" style="line-height: 1.8; text-align: justify;">
-                        <?= nl2br($p['isi_profil'] ?? 'Selamat datang di website resmi sekolah kami.') ?>
-                    </div>
-                    
-                    <ul class="list-unstyled mt-4">
-                    <li class="mb-2">
-                        <i class="bi bi-check-circle-fill text-success me-2"></i> 
-                        <?= !empty($p['keunggulan_1']) ? $p['keunggulan_1'] : 'Kurikulum Berkualitas' ?>
-                    </li>
-                    <li class="mb-2">
-                        <i class="bi bi-check-circle-fill text-success me-2"></i> 
-                        <?= !empty($p['keunggulan_2']) ? $p['keunggulan_2'] : 'Fasilitas Lengkap' ?>
-                    </li>
-                    <li class="mb-2">
-                        <i class="bi bi-check-circle-fill text-success me-2"></i> 
-                        <?= !empty($p['keunggulan_3']) ? $p['keunggulan_3'] : 'Ekstrakurikuler Aktif' ?>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </div>
-</section>
 
-<!-- New visi & misi section below sambutan -->
-<section id="visi-misi" class="section py-6 bg-light">
-    <div class="container my-5">
-        <div class="text-center mb-5">
-            <h4 class="text-success fw-bold" style="font-size:2rem;">Visi &amp; Misi</h4>
-        </div>
-        <div class="row g-4">
-            <!-- Visi box -->
-            <div class="col-md-6">
-                <div class="card h-100 shadow-sm border-success box-visi">
-                    <div class="card-body">
-                        <h5 class="card-title text-success fw-bold" style="font-size:1.25rem;">Visi</h5>
-                        <p class="card-text text-secondary" style="font-size:1rem; line-height:1.6;">
-                            <?php if(!empty($p['visi'])): ?>
-                                <?= nl2br($p['visi']) ?>
-                            <?php else: ?>
-                                <span class="fst-italic">Visi belum diset. Silakan atur di pengaturan admin.</span>
-                            <?php endif; ?>
-                        </p>
+                    <h1>
+                        Selamat Datang di <br>
+                        <span class="text-gradient"><?= htmlspecialchars($p['nama_sekolah'] ?? 'Sekolah Purwanida') ?></span>
+                    </h1>
+
+                    <p class="lead">
+                        <?= htmlspecialchars($p['deskripsi_hero'] ?? 'Mencetak generasi cerdas, berkarakter, kreatif, dan berakhlak mulia melalui lingkungan belajar yang inspiratif.') ?>
+                    </p>
+
+                    <div class="hero-actions">
+                        <a href="#tentang" class="btn-main">
+                            <i class="bi bi-arrow-down-circle"></i>
+                            Jelajahi Profil
+                        </a>
+                        <a href="#berita" class="btn-outline-soft">
+                            <i class="bi bi-newspaper"></i>
+                            Lihat Berita
+                        </a>
                     </div>
                 </div>
+
+
             </div>
-            <!-- Misi box -->
-            <div class="col-md-6">
-                <div class="card h-100 shadow-sm border-success box-misi">
-                    <div class="card-body">
-                        <h5 class="card-title text-success fw-bold" style="font-size:1.25rem;">Misi</h5>
-                        <div class="card-text text-secondary" style="font-size:1rem; line-height:1.6;">
-                            <?php if(!empty($p['misi'])): ?>
-                                <ul style="padding-left:1.2rem;">
-                                    <?php foreach(explode("\n", $p['misi']) as $m){
-                                        $m=trim($m);
-                                        if($m!=='') echo "<li>".htmlspecialchars($m)."</li>";
-                                    } ?>
-                                </ul>
-                            <?php else: ?>
-                                <span class="fst-italic">Misi belum diset. Silakan atur di pengaturan admin.</span>
-                            <?php endif; ?>
+        </div>
+    </div>
+</section>
+
+<section id="tentang" class="section">
+    <div class="container">
+        <div class="row align-items-center g-5">
+            <div class="col-lg-5 scroll-animate">
+                <div class="tentang-wrap">
+                    <div class="tentang-image-box">
+                        <img src="<?= $img_profil ?>" alt="Tentang Kami">
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="col-lg-7 scroll-animate delay-1">
+                <div class="sambutan-card">
+                    <div class="section-badge">
+                        <i class="bi bi-person-badge"></i>
+                        Tentang Kami
+                    </div>
+
+                    <h2>Sambutan Kepala Sekolah</h2>
+
+                    <div class="desc">
+                        <?= nl2br($p['isi_profil'] ?? 'Selamat datang di website resmi sekolah kami.') ?>
+                    </div>
+
+                    <div class="sambutan-points">
+                        <div class="sambutan-point">
+                            <i class="bi bi-check-circle-fill"></i>
+                            <span><?= htmlspecialchars(!empty($p['keunggulan_1']) ? $p['keunggulan_1'] : 'Kurikulum Berkualitas') ?></span>
+                        </div>
+                        <div class="sambutan-point">
+                            <i class="bi bi-check-circle-fill"></i>
+                            <span><?= htmlspecialchars(!empty($p['keunggulan_2']) ? $p['keunggulan_2'] : 'Fasilitas Lengkap') ?></span>
+                        </div>
+                        <div class="sambutan-point">
+                            <i class="bi bi-check-circle-fill"></i>
+                            <span><?= htmlspecialchars(!empty($p['keunggulan_3']) ? $p['keunggulan_3'] : 'Ekstrakurikuler Aktif') ?></span>
                         </div>
                     </div>
                 </div>
@@ -244,166 +1126,210 @@ if(!empty($p['gambar_hero']) && file_exists("assets/img_sekolah/".$p['gambar_her
     </div>
 </section>
 
-<section id="berita" class="section py-6 bg-light">
-    <div class="container my-5">
-        <div class="text-center mb-5">
-            <h4 class="text-success fw-bold">Informasi Terkini</h4>
-            <h2 class="section-title d-inline-block text-dark">Berita Sekolah</h2>
-        </div>
-        
-        <div class="row g-4">
-            <?php
-            // Query: Ambil 3 berita terakhir
-            $q_berita = mysqli_query($koneksi, "SELECT * FROM berita ORDER BY id DESC LIMIT 3");
-            
-            // Cek jika ada berita
-            if(mysqli_num_rows($q_berita) > 0){
-                while($b = mysqli_fetch_assoc($q_berita)){
-                    // Cek gambar berita
-                    $img_berita = $b['gambar'] ? "assets/img_berita/".$b['gambar'] : "https://via.placeholder.com/400x200";
-            ?>
-            <div class="col-6 col-md-4">
-                <div class="card card-custom h-100 bg-white shadow-sm border-0">
-                    <img src="<?= $img_berita ?>" class="card-img-top" alt="Berita" style="height: 220px; object-fit: cover;">
-                    <div class="card-body">
-                        <small class="text-muted"><i class="bi bi-calendar-event me-1"></i> <?= $b['tanggal'] ?></small>
-                        <h5 class="fw-bold mt-2 mb-3 text-dark"><?= $b['judul'] ?></h5>
-                        <p class="text-secondary"><?= substr(strip_tags($b['isi']), 0, 90) ?>...</p>
-                        <a href="detail_berita.php?id=<?= $b['id'] ?>" class="btn btn-sm btn-outline-success rounded-pill mt-2">Baca Selengkapnya <i class="bi bi-arrow-right"></i></a>
-                    </div>
-                </div>
+<section id="visi-misi" class="section section-soft">
+    <div class="container">
+        <div class="section-title-wrap scroll-animate">
+            <div class="section-badge">
+                <i class="bi bi-compass"></i>
+                Fondasi Kami
             </div>
-            <?php 
-                }
-            } else {
-                echo "<div class='col-12 text-center text-muted'><i>Belum ada berita yang diposting.</i></div>";
-            }
-            ?>
+            <h2 class="section-title">Visi & Misi</h2>
+            <p class="section-subtitle">
+                Arah dan komitmen sekolah dalam membangun pendidikan yang unggul, berkarakter, dan relevan dengan perkembangan zaman.
+            </p>
+        </div>
+
+        <div class="visi-misi-grid">
+            <div class="vm-card visi scroll-animate delay-1">
+                <div class="vm-icon">
+                    <i class="bi bi-eye-fill"></i>
+                </div>
+                <h3>Visi</h3>
+                <p>
+                    <?php if (!empty($p['visi'])): ?>
+                        <?= nl2br(htmlspecialchars($p['visi'])) ?>
+                    <?php else: ?>
+                        <span class="fst-italic">Visi belum diset. Silakan atur di pengaturan admin.</span>
+                    <?php endif; ?>
+                </p>
+            </div>
+
+            <div class="vm-card misi scroll-animate delay-2">
+                <div class="vm-icon">
+                    <i class="bi bi-bullseye"></i>
+                </div>
+                <h3>Misi</h3>
+
+                <?php if (!empty($p['misi'])): ?>
+                    <ul>
+                        <?php foreach (explode("\n", $p['misi']) as $m): ?>
+                            <?php $m = trim($m); ?>
+                            <?php if ($m !== ''): ?>
+                                <li><?= htmlspecialchars($m) ?></li>
+                            <?php endif; ?>
+                        <?php endforeach; ?>
+                    </ul>
+                <?php else: ?>
+                    <p><span class="fst-italic">Misi belum diset. Silakan atur di pengaturan admin.</span></p>
+                <?php endif; ?>
+            </div>
         </div>
     </div>
 </section>
 
-<section id="galeri" class="section py-6 bg-white">
-    <div class="container my-5">
-        <div class="text-center mb-5">
-            <h4 class="text-success fw-bold">Dokumentasi</h4>
-            <h2 class="section-title d-inline-block text-dark">Galeri Kegiatan</h2>
+<section id="berita" class="section berita-section">
+    <div class="container">
+        <div class="section-title-wrap scroll-animate">
+            <div class="section-badge">
+                <i class="bi bi-newspaper"></i>
+                Berita Terbaru
+            </div>
+            <h2 class="section-title">Informasi & Berita Sekolah</h2>
+            <p class="section-subtitle">
+                Ikuti kabar terbaru, kegiatan, prestasi, dan momen penting dari lingkungan sekolah.
+            </p>
         </div>
 
-        <div class="row g-3">
-            <?php
-            // Cek dulu apakah tabel galeri ada untuk menghindari error
-            $cek_tabel = mysqli_query($koneksi, "SHOW TABLES LIKE 'galeri'");
-            
-            if(mysqli_num_rows($cek_tabel) > 0){
-                // Jika tabel ada, ambil data
-                $q_galeri = mysqli_query($koneksi, "SELECT * FROM galeri ORDER BY id DESC LIMIT 6");
-                
-                if(mysqli_num_rows($q_galeri) > 0){
-                    while($g = mysqli_fetch_assoc($q_galeri)){
-                        // Pastikan path folder sesuai
-                        $img_galeri = "assets/img_galeri/" . $g['gambar'];
-                        
-                        // Cek apakah kolom judul ada datanya, jika tidak kosongkan
-                        $judul_galeri = isset($g['judul']) ? $g['judul'] : ""; 
-            ?>
-            <div class="col-md-4 col-sm-6">
-                <div class="card border-0 shadow rounded-3 overflow-hidden h-100 position-relative">
-                    <img src="<?= $img_galeri ?>" class="w-100" alt="Galeri" style="height: 250px; object-fit: cover;">
-                    <div class="card-footer position-absolute bottom-0 start-0 w-100 p-3 text-center text-white" style="background: rgba(0,0,0,0.6);">
-                        <h5 class="fw-bold mb-0"><?= $judul_galeri ?></h5>
-                    </div>
-                </div>
-            </div>
-            <?php 
-                    } 
-                } else {
-                    echo "<div class='col-12 text-center text-muted'>Belum ada foto di galeri.</div>";
-                }
-            } else {
-                echo "<div class='col-12 text-center text-danger'>Tabel 'galeri' belum dibuat di database.</div>";
+        <?php
+        $q_berita = mysqli_query($koneksi, "SELECT * FROM berita ORDER BY id DESC LIMIT 3");
+        $data_berita = [];
+
+        if ($q_berita && mysqli_num_rows($q_berita) > 0) {
+            while ($b = mysqli_fetch_assoc($q_berita)) {
+                $data_berita[] = $b;
             }
-            ?>
-        </div>
+        }
+        ?>
+
+        <?php if (!empty($data_berita)): ?>
+            <div class="berita-side">
+                <?php foreach ($data_berita as $index => $item): ?>
+                    <?php
+                    $img_item = (!empty($item['gambar']) && file_exists(__DIR__ . "/assets/img_berita/" . $item['gambar']))
+                        ? "assets/img_berita/" . $item['gambar']
+                        : "https://via.placeholder.com/800x600?text=Berita";
+                    $delay_class = "delay-" . (($index % 3) + 1);
+                    ?>
+                    <article class="berita-side-card scroll-animate <?= $delay_class ?>">
+                        <div class="berita-side-thumb">
+                            <img src="<?= $img_item ?>" alt="<?= htmlspecialchars($item['judul']) ?>">
+                        </div>
+                        <div class="berita-side-body">
+                            <div class="berita-meta" style="color: var(--muted-color);">
+                                <span><i class="bi bi-clock-history"></i> <?= date('d M Y', strtotime($item['tanggal'])) ?></span>
+                            </div>
+                            <h4><?= htmlspecialchars($item['judul']) ?></h4>
+                            <p><?= htmlspecialchars(limit_text($item['isi'], 95)) ?></p>
+                            <a href="detail_berita.php?id=<?= $item['id'] ?>" class="berita-link">
+                                Lihat detail
+                                <i class="bi bi-arrow-right"></i>
+                            </a>
+                        </div>
+                    </article>
+                <?php endforeach; ?>
+            </div>
+        <?php else: ?>
+            <div class="berita-empty-box">
+                <i class="bi bi-newspaper"></i>
+                <h4>Belum ada berita</h4>
+                <p>Informasi terbaru sekolah akan tampil di sini.</p>
+            </div>
+        <?php endif; ?>
     </div>
 </section>
 
-<section id="ekskul" class="py-6 bg-light">
-    <div class="container my-5">
-        
-        <div class="text-center mb-5">
-            <h5 class="text-success fw-semibold text-uppercase">Pengembangan Diri</h5>
-            <h2 class="fw-bold display-6">Ekstrakurikuler</h2>
-            <div class="mx-auto mt-3" style="width:80px;height:4px;background:#198754;border-radius:10px;"></div>
-        </div>
-
-        <div class="row g-4 justify-content-center">
-            <?php
-            $cek_ekskul = mysqli_query($koneksi, "SHOW TABLES LIKE 'ekstrakurikuler'");
-            if(mysqli_num_rows($cek_ekskul) > 0){
-                $q_ekskul = mysqli_query($koneksi, "SELECT * FROM ekstrakurikuler ORDER BY id DESC");
-                if(mysqli_num_rows($q_ekskul) > 0){
-                    while($e = mysqli_fetch_assoc($q_ekskul)){
-            ?>
-            
-            <div class="col-lg-4 col-md-6">
-                <div class="card ekskul-card border-0 shadow-sm rounded-4 overflow-hidden h-100">
-                    
-                    <div class="img-wrapper position-relative">
-                        <img src="assets/img_ekskul/<?= $e['gambar'] ?>" 
-                             class="w-100" 
-                             alt="<?= $e['nama_ekskul'] ?>">
-                        <div class="overlay"></div>
-                    </div>
-                    
-                    <div class="card-body text-center py-4">
-                        <h5 class="fw-bold mb-0"><?= $e['nama_ekskul'] ?></h5>
-                    </div>
-
-                </div>
+<section id="galeri" class="section">
+    <div class="container">
+        <div class="section-title-wrap scroll-animate">
+            <div class="section-badge">
+                <i class="bi bi-images"></i>
+                Dokumentasi
             </div>
-
-            <?php 
-                    }
-                } else {
-                    echo "<div class='text-center text-muted'>Belum ada data ekskul.</div>";
-                }
-            }
-            ?>
+            <h2 class="section-title">Galeri Kegiatan</h2>
+            <p class="section-subtitle">
+                Potret berbagai kegiatan, suasana belajar, dan momen kebersamaan di sekolah.
+            </p>
         </div>
+
+        <?php
+        $cek_tabel = mysqli_query($koneksi, "SHOW TABLES LIKE 'galeri'");
+        if (mysqli_num_rows($cek_tabel) > 0):
+            $q_galeri = mysqli_query($koneksi, "SELECT * FROM galeri ORDER BY id DESC LIMIT 6");
+            if (mysqli_num_rows($q_galeri) > 0):
+        ?>
+            <div class="galeri-grid">
+                <?php
+                $galeri_index = 0;
+                while ($g = mysqli_fetch_assoc($q_galeri)):
+                    $img_galeri = "assets/img_galeri/" . $g['gambar'];
+                    $judul_galeri = isset($g['judul']) && trim($g['judul']) !== '' ? $g['judul'] : 'Galeri Kegiatan';
+                    $delay_class = "delay-" . (($galeri_index % 3) + 1);
+                    $galeri_index++;
+                ?>
+                    <div class="galeri-card scroll-animate <?= $delay_class ?>">
+                        <img src="<?= $img_galeri ?>" alt="<?= htmlspecialchars($judul_galeri) ?>">
+                        <div class="galeri-overlay"></div>
+                        <div class="galeri-caption">
+                            <h5><?= htmlspecialchars($judul_galeri) ?></h5>
+                        </div>
+                    </div>
+                <?php endwhile; ?>
+            </div>
+        <?php
+            else:
+                echo "<div class='simple-empty'>Belum ada foto di galeri.</div>";
+            endif;
+        else:
+            echo "<div class='simple-empty text-danger'>Tabel 'galeri' belum dibuat di database.</div>";
+        endif;
+        ?>
     </div>
 </section>
 
-<style>
-.ekskul-card {
-    transition: all 0.3s ease;
-}
+<section id="ekskul" class="section section-soft">
+    <div class="container">
+        <div class="section-title-wrap scroll-animate">
+            <div class="section-badge">
+                <i class="bi bi-trophy"></i>
+                Pengembangan Diri
+            </div>
+            <h2 class="section-title">Ekstrakurikuler</h2>
+            <p class="section-subtitle">
+                Wadah bagi siswa untuk berkembang, berprestasi, dan menyalurkan minat serta bakatnya.
+            </p>
+        </div>
 
-.ekskul-card:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 20px 40px rgba(0,0,0,0.15);
-}
-
-.img-wrapper {
-    height: 230px;
-    overflow: hidden;
-}
-
-.img-wrapper img {
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.5s ease;
-}
-
-.ekskul-card:hover img {
-    transform: scale(1.1);
-}
-
-.overlay {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(to top, rgba(0,0,0,0.4), transparent);
-}
-</style>
+        <?php
+        $cek_ekskul = mysqli_query($koneksi, "SHOW TABLES LIKE 'ekstrakurikuler'");
+        if (mysqli_num_rows($cek_ekskul) > 0):
+            $q_ekskul = mysqli_query($koneksi, "SELECT * FROM ekstrakurikuler ORDER BY id DESC");
+            if (mysqli_num_rows($q_ekskul) > 0):
+        ?>
+            <div class="ekskul-grid">
+                <?php
+                $ekskul_index = 0;
+                while ($e = mysqli_fetch_assoc($q_ekskul)):
+                    $delay_class = "delay-" . (($ekskul_index % 3) + 1);
+                    $ekskul_index++;
+                ?>
+                    <div class="ekskul-card scroll-animate <?= $delay_class ?>">
+                        <div class="ekskul-thumb">
+                            <img src="assets/img_ekskul/<?= $e['gambar'] ?>" alt="<?= htmlspecialchars($e['nama_ekskul']) ?>">
+                            <div class="ekskul-overlay"></div>
+                        </div>
+                        <div class="ekskul-body">
+                            <h5><?= htmlspecialchars($e['nama_ekskul']) ?></h5>
+                        </div>
+                    </div>
+                <?php endwhile; ?>
+            </div>
+        <?php
+            else:
+                echo "<div class='simple-empty'>Belum ada data ekskul.</div>";
+            endif;
+        endif;
+        ?>
+    </div>
+</section>
 
 <?php include 'includes/footer.php'; ?>
