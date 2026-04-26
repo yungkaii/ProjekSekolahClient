@@ -8,7 +8,7 @@ $msg = '';
 if($_SERVER['REQUEST_METHOD'] === 'POST'){
     $content = $_POST['content'] ?? '';
     file_put_contents($file, $content);
-    $msg = 'Perubahan disimpan.';
+    $msg = 'Perubahan kesiswaan berhasil disimpan.';
 }
 $current = file_exists($file) ? file_get_contents($file) : '';
 ?>
@@ -20,43 +20,65 @@ $current = file_exists($file) ? file_get_contents($file) : '';
     <title>Kelola Kesiswaan - Admin</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.ckeditor.com/4.22.1/standard/ckeditor.js"></script>
     <style>
-        :root { --bg-dark: #0f172a; --bg-sidebar: #1e293b; --text-grey: #94a3b8; --text-white: #f8fafc; }
+        /* Sembunyikan notifikasi warning CKEditor */
+.cke_notification_warning {
+    display: none !important;
+}
+        :root { --bg-dark: #0f172a; --bg-sidebar: #1e293b; --text-white: #f8fafc; }
         body { font-family: 'Poppins', sans-serif; background-color: var(--bg-dark); color: var(--text-white); }
-        .sidebar { background-color: var(--bg-sidebar); box-shadow: 2px 0 10px rgba(0,0,0,0.3); min-height: 100vh; }
-        @media (max-width: 768px) { .sidebar { min-height: auto; margin-bottom: 20px; } .sidebar h4 { display: none; } }
-        .nav-link { color: var(--text-grey); margin-bottom: 5px; border-radius: 8px; transition: 0.3s; }
-        .nav-link:hover, .nav-link.active { background-color: rgba(255,255,255,0.1); color:#fff; }
-        .nav-link i { margin-right:10px; font-size:1.1rem; }
-        .card-custom { background-color: var(--bg-sidebar); border: 1px solid #334155; border-radius:12px; color:white; }
-        .form-control { background-color: #334155; border:1px solid #475569; color:white; }
-        .form-control:focus { background-color:#334155; color:white; border-color:#0ea5e9; box-shadow:0 0 0 0.25rem rgba(14,165,233,0.25); }
+        .main-wrapper { margin-left: 280px; padding: 40px; min-height: 100vh; }
+        @media (max-width: 992px) { .main-wrapper { margin-left: 0; padding: 20px; } }
+        .card-custom { background-color: var(--bg-sidebar); border: 1px solid #334155; border-radius:15px; }
+        /* Fix tampilan CKEditor agar menyatu dengan tema dark */
+        .cke_chrome { border-radius: 10px !important; border: none !important; }
     </style>
 </head>
-<body class="bg-dark text-white">
+<body>
 <div class="d-flex">
     <?php include __DIR__ . '/dashboard_sidebar.php'; ?>
-    <script>
-        document.addEventListener('DOMContentLoaded', function(){
-            const link = document.querySelector('a[href="kesiswaan.php"]');
-            if(link) link.classList.add('active');
-        });
-    </script>
-    <div class="flex-grow-1 p-4">
-        <div class="card card-custom p-4 shadow-sm">
-            <h3 class="fw-bold">Kelola Kesiswaan</h3>
-            <?php if($msg): ?><div class="alert alert-success"><?= $msg ?></div><?php endif; ?>
-            <form method="post">
-            <div class="mb-3">
-                <label class="form-label">Konten (HTML)</label>
-                <textarea name="content" rows="12" class="form-control bg-secondary text-white"><?= htmlspecialchars($current) ?></textarea>
+    
+    <div class="main-wrapper flex-grow-1">
+        <div class="card card-custom p-4 shadow-lg">
+            <div class="d-flex align-items-center mb-4">
+                <i class="bi bi-person-badge-fill text-info fs-2 me-3"></i>
+                <div>
+                    <h3 class="fw-bold mb-0">Kelola Konten Kesiswaan</h3>
+                    <p class="text-muted small mb-0">Tulis program siswa, OSIS, atau tata tertib di sini.</p>
+                </div>
             </div>
-            <button class="btn btn-success">Simpan</button>
-        </form>
+
+            <?php if($msg): ?>
+                <div class="alert alert-info border-0 rounded-3 shadow-sm"><?= $msg ?></div>
+            <?php endif; ?>
+
+            <form method="post">
+                <div class="mb-4">
+                    <textarea name="content" id="editor1"><?= $current ?></textarea>
+                </div>
+                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                    <button class="btn btn-info btn-lg px-5 rounded-pill fw-bold text-white">
+                        <i class="bi bi-magic me-2"></i> Simpan Perubahan
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    // Aktifkan CKEditor
+    CKEDITOR.replace('editor1', {
+        height: 400,
+        removeButtons: 'About',
+        // Agar admin bisa paste dari Word dengan rapi
+        pasteFromWordRemoveFontStyles: true,
+        pasteFromWordRemoveStyles: true,
+        // Tambahkan baris ini untuk mematikan notifikasi peringatan versi:
+        versionCheck: false
+    });
+</script><
 </body>
 </html>

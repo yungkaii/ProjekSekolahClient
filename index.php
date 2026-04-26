@@ -1,4 +1,6 @@
 <?php
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
 include 'config/koneksi.php';
 include 'includes/header.php';
 ?>
@@ -915,45 +917,60 @@ img{
     }
 
     .hero-content{
-        padding: 120px 0 70px;
+        padding: 100px 0 60px;
     }
 
     .hero-copy h1{
         letter-spacing: -1px;
+        font-size: clamp(1.8rem, 5vw, 2.2rem);
     }
 
     .hero-copy .lead{
-        font-size: 1rem;
-        line-height: 1.85;
+        font-size: 0.95rem;
+        line-height: 1.8;
     }
 
     .hero-actions{
         flex-direction: column;
         align-items: stretch;
+        gap: 12px;
     }
 
     .hero-actions .btn-main,
     .hero-actions .btn-outline-soft{
         justify-content: center;
         width: 100%;
+        padding: 14px 20px;
+        font-size: 0.9rem;
     }
 
     .hero-panel{
-        padding: 22px;
-        border-radius: 24px;
+        padding: 18px;
+        border-radius: 20px;
+        margin-top: 20px;
     }
 
     .hero-mini-stats{
         grid-template-columns: 1fr 1fr;
+        gap: 12px;
+    }
+
+    .section{
+        padding: 60px 1rem;
     }
 
     .section-title-wrap{
-        margin-bottom: 40px;
+        margin-bottom: 35px;
+        padding: 0 1rem;
+    }
+
+    .section-title{
+        font-size: clamp(1.5rem, 4vw, 2rem);
     }
 
     .tentang-image-box{
-        min-height: 320px;
-        border-radius: 24px;
+        min-height: 280px;
+        border-radius: 20px;
     }
 
     .tentang-floating-card{
@@ -963,60 +980,156 @@ img{
     }
 
     .sambutan-card{
-        padding: 24px;
-        border-radius: 24px;
+        padding: 20px;
+        border-radius: 20px;
     }
 
     .vm-card{
-        padding: 24px;
-        border-radius: 24px;
+        padding: 20px;
+        border-radius: 20px;
     }
 
     .berita-featured{
-        min-height: 400px;
-        border-radius: 24px;
+        min-height: 350px;
+        border-radius: 20px;
     }
 
     .berita-featured-body{
-        padding: 22px;
+        padding: 18px;
     }
 
     .berita-featured-body p{
         max-width: 100%;
-        font-size: 0.95rem;
+        font-size: 0.9rem;
+        line-height: 1.6;
     }
 
     .berita-side{
         grid-template-columns: 1fr;
+        gap: 14px;
     }
 
     .berita-side-card{
         grid-template-columns: 1fr;
-        padding: 14px;
-        border-radius: 22px;
+        padding: 12px;
+        border-radius: 18px;
         min-height: auto;
     }
 
     .berita-side-thumb{
-        height: 180px;
+        height: 160px;
+        border-radius: 16px;
+    }
+
+    .berita-side-body{
+        padding: 12px 0;
     }
 
     .galeri-grid,
     .ekskul-grid{
         grid-template-columns: 1fr;
+        gap: 14px;
     }
 
     .galeri-card{
-        min-height: 240px;
-        border-radius: 22px;
+        min-height: 220px;
+        border-radius: 18px;
     }
 
     .ekskul-card{
-        border-radius: 24px;
+        border-radius: 18px;
+        padding: 16px;
     }
 
     .ekskul-thumb{
-        height: 220px;
+        height: 200px;
+        border-radius: 14px;
+    }
+
+    .container{
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+}
+
+@media (max-width: 575.98px){
+    .hero-section{
+        min-height: 90vh;
+    }
+
+    .hero-content{
+        padding: 80px 1rem 50px;
+    }
+
+    .hero-copy h1{
+        font-size: clamp(1.4rem, 6vw, 1.8rem);
+        line-height: 1.2;
+    }
+
+    .hero-copy .lead{
+        font-size: 0.85rem;
+    }
+
+    .hero-panel{
+        padding: 16px;
+        gap: 16px;
+    }
+
+    .hero-mini-stats{
+        grid-template-columns: 1fr;
+    }
+
+    .section{
+        padding: 50px 0.75rem;
+    }
+
+    .section-title{
+        font-size: clamp(1.3rem, 5vw, 1.7rem);
+    }
+
+    .section-badge{
+        font-size: 0.7rem;
+        padding: 8px 14px;
+    }
+
+    .card, .card-soft{
+        border-radius: 14px;
+        padding: 14px;
+    }
+
+    .berita-featured{
+        min-height: 300px;
+    }
+
+    .berita-featured-body{
+        padding: 14px;
+    }
+
+    .berita-featured-body h3{
+        font-size: 1.1rem;
+    }
+
+    .berita-side-card{
+        padding: 10px;
+        gap: 8px;
+    }
+
+    .berita-side-thumb{
+        height: 140px;
+    }
+
+    .btn-main, .btn-outline-soft{
+        padding: 12px 18px;
+        font-size: 0.85rem;
+    }
+
+    h1, h2, h3, h4, h5, h6{
+        line-height: 1.2;
+    }
+
+    /* Prevent form inputs from triggering zoom on iOS */
+    input, textarea, select{
+        font-size: 16px !important;
     }
 }
 </style>
@@ -1191,7 +1304,7 @@ if (!empty($p['gambar_profil']) && file_exists("assets/img_sekolah/" . $p['gamba
         </div>
 
         <?php
-        $q_berita = mysqli_query($koneksi, "SELECT * FROM berita ORDER BY id DESC LIMIT 3");
+        $q_berita = mysqli_query($koneksi, "SELECT * FROM berita WHERE status = 'publish' ORDER BY id DESC LIMIT 3");
         $data_berita = [];
 
         if ($q_berita && mysqli_num_rows($q_berita) > 0) {

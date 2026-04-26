@@ -198,6 +198,8 @@ if(isset($_POST['save_komite'])){
 // ==========================================================
 if(isset($_POST['simpan_berita'])){
     $judul = mysqli_real_escape_string($koneksi, $_POST['judul']);
+    $isi = mysqli_real_escape_string($koneksi, $_POST['isi']);
+    $status = mysqli_real_escape_string($koneksi, $_POST['simpan_berita']); // Ambil dari tombol yang diklik
     $tanggal = date('Y-m-d'); 
     
     $foto = $_FILES['gambar']['name'];
@@ -206,14 +208,20 @@ if(isset($_POST['simpan_berita'])){
     $path = "../assets/img_berita/" . $nama_baru;
 
     if(move_uploaded_file($tmp, $path)){
-        mysqli_query($koneksi, "INSERT INTO berita (judul, tanggal, gambar) VALUES ('$judul', '$tanggal', '$nama_baru')");
-        echo "<script>alert('Berita Berhasil Ditambahkan'); window.location='berita.php';</script>";
+        mysqli_query($koneksi, "INSERT INTO berita (judul, isi, tanggal, gambar, status) VALUES ('$judul', '$isi', '$tanggal', '$nama_baru', '$status')");
+        
+        if($status == 'publish'){
+            echo "<script>alert('Berita Berhasil Dipublish!'); window.location='berita.php';</script>";
+        } else {
+            echo "<script>alert('Berita Berhasil Disimpan sebagai Draft'); window.location='berita.php';</script>";
+        }
     }
 }
 
 if(isset($_POST['update_berita'])){
     $id = $_POST['id'];
     $judul = mysqli_real_escape_string($koneksi, $_POST['judul']);
+    $status = mysqli_real_escape_string($koneksi, $_POST['update_berita']); // Ambil dari tombol yang diklik
     
     if($_FILES['gambar']['name'] != ""){
         $foto = $_FILES['gambar']['name'];
@@ -226,12 +234,17 @@ if(isset($_POST['update_berita'])){
             unlink("../assets/img_berita/" . $data['gambar']);
         }
         move_uploaded_file($tmp, $path);
-        $query = "UPDATE berita SET judul='$judul', gambar='$nama_baru' WHERE id='$id'";
+        $query = "UPDATE berita SET judul='$judul', gambar='$nama_baru', status='$status' WHERE id='$id'";
     } else {
-        $query = "UPDATE berita SET judul='$judul' WHERE id='$id'";
+        $query = "UPDATE berita SET judul='$judul', status='$status' WHERE id='$id'";
     }
     mysqli_query($koneksi, $query);
-    echo "<script>alert('Berita Berhasil Diupdate'); window.location='berita.php';</script>";
+    
+    if($status == 'publish'){
+        echo "<script>alert('Berita Berhasil Dipublish!'); window.location='berita.php';</script>";
+    } else {
+        echo "<script>alert('Berita Berhasil Disimpan sebagai Draft'); window.location='berita.php';</script>";
+    }
 }
 
 if(isset($_GET['hapus_berita'])){
@@ -247,24 +260,63 @@ if(isset($_GET['hapus_berita'])){
 // ==========================================================
 // 4. KELOLA GALERI
 // ==========================================================
-if(isset($_POST['simpan_galeri'])){
-    $keterangan = mysqli_real_escape_string($koneksi, $_POST['keterangan']);
-    $foto = $_FILES['foto']['name'];
-    $tmp = $_FILES['foto']['tmp_name'];
-    $nama_baru = date('dmYHis') . "_" . $foto;
-    $path = "../assets/img/" . $nama_baru;
+if(isset($_POST['simpan_galeri']) || isset($_POST['upload_galeri'])){
+    $judul = mysqli_real_escape_string($koneksi, $_POST['judul']);
+    $fotoName = '';
+    $tmp = '';
 
-    if(move_uploaded_file($tmp, $path)){
-        mysqli_query($koneksi, "INSERT INTO galeri (keterangan, foto) VALUES ('$keterangan', '$nama_baru')");
-        echo "<script>alert('Foto Galeri Berhasil Ditambahkan'); window.location='galeri.php';</script>";
+    if(isset($_FILES['gambar']) && $_FILES['gambar']['name'] != ''){
+        $fotoName = $_FILES['gambar']['name'];
+        $tmp = $_FILES['gambar']['tmp_name'];
+    } elseif(isset($_FILES['foto']) && $_FILES['foto']['name'] != ''){
+        $fotoName = $_FILES['foto']['name'];
+        $tmp = $_FILES['foto']['tmp_name'];
     }
+
+    if($fotoName && $tmp){
+        $nama_baru = date('dmYHis') . "_" . $fotoName;
+        $path = "../assets/img_galeri/" . $nama_baru;
+
+        if(move_uploaded_file($tmp, $path)){
+            mysqli_query($koneksi, "INSERT INTO galeri (judul, gambar) VALUES ('$judul', '$nama_baru')");
+            echo "<script>alert('Foto Galeri Berhasil Ditambahkan'); window.location='galeri.php';</script>";
+        }
+    }
+}
+
+if(isset($_POST['update_galeri'])){
+    $id = $_POST['id'];
+    $judul = mysqli_real_escape_string($koneksi, $_POST['judul']);
+
+    if(isset($_FILES['gambar']) && $_FILES['gambar']['name'] != ""){
+        $foto = $_FILES['gambar']['name'];
+        $tmp = $_FILES['gambar']['tmp_name'];
+        $nama_baru = date('dmYHis') . "_" . $foto;
+        $path = "../assets/img_galeri/" . $nama_baru;
+
+        $data = mysqli_fetch_array(mysqli_query($koneksi, "SELECT * FROM galeri WHERE id='$id'"));
+        if($data && file_exists("../assets/img_galeri/" . $data['gambar'])){
+            unlink("../assets/img_galeri/" . $data['gambar']);
+        }
+
+        if(move_uploaded_file($tmp, $path)){
+            $query = "UPDATE galeri SET judul='$judul', gambar='$nama_baru' WHERE id='$id'";
+        } else {
+            $query = "UPDATE galeri SET judul='$judul' WHERE id='$id'";
+        }
+    } else {
+        $query = "UPDATE galeri SET judul='$judul' WHERE id='$id'";
+    }
+
+    mysqli_query($koneksi, $query);
+    echo "<script>alert('Galeri Berhasil Diupdate'); window.location='galeri.php';</script>";
 }
 
 if(isset($_GET['hapus_galeri'])){
     $id = $_GET['hapus_galeri'];
     $data = mysqli_fetch_array(mysqli_query($koneksi, "SELECT * FROM galeri WHERE id='$id'"));
-    if(file_exists("../assets/img/" . $data['foto'])){
-        unlink("../assets/img/" . $data['foto']);
+    if($data && file_exists("../assets/img_galeri/" . $data['gambar'])){
+        unlink("../assets/img_galeri/" . $data['gambar']);
     }
     mysqli_query($koneksi, "DELETE FROM galeri WHERE id='$id'");
     echo "<script>alert('Galeri Berhasil Dihapus'); window.location='galeri.php';</script>";

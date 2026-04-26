@@ -7,8 +7,8 @@ include 'includes/navbar.php'; // Navbar yang sama
 // (int) digunakan untuk keamanan, memastikan input hanya angka
 $id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 
-// 2. Ambil data berita berdasarkan ID
-$query = mysqli_query($koneksi, "SELECT * FROM berita WHERE id = '$id'");
+// 2. Ambil data berita berdasarkan ID (hanya yang publish)
+$query = mysqli_query($koneksi, "SELECT * FROM berita WHERE id = '$id' AND status = 'publish'");
 $data  = mysqli_fetch_assoc($query);
 
 // Jika berita tidak ditemukan (misal ID ngawur)

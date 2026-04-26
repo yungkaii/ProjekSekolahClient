@@ -5,10 +5,23 @@ if(!isset($_SESSION['status_login'])){ header('Location: login.php'); exit; }
 
 $file = __DIR__ . '/../assets/content/komite.html';
 $msg = '';
+
 if($_SERVER['REQUEST_METHOD'] === 'POST'){
-    $content = $_POST['content'] ?? '';
-    file_put_contents($file, $content);
-    $msg = 'Perubahan disimpan.';
+    if(isset($_FILES['komite_img']) && $_FILES['komite_img']['error'] === 0){
+        $nama_file = $_FILES['komite_img']['name'];
+        $tmp_name = $_FILES['komite_img']['tmp_name'];
+        $folder_tujuan = '../assets/content/';
+        
+        if(move_uploaded_file($tmp_name, $folder_tujuan . $nama_file)){
+            // TRIKNYA DISINI: Kita simpan path yang bisa dibaca dari halaman UTAMA
+            // Kita pakai path relatif dari root/index.php
+            $path_untuk_user = 'assets/content/'.$nama_file; 
+            $tag_img = '<img src="'.$path_untuk_user.'" class="img-fluid w-100" alt="Komite Sekolah">';
+            
+            file_put_contents($file, $tag_img);
+            $msg = 'Gambar komite berhasil diperbarui!';
+        }
+    }
 }
 $current = file_exists($file) ? file_get_contents($file) : '';
 ?>
@@ -20,55 +33,85 @@ $current = file_exists($file) ? file_get_contents($file) : '';
     <title>Kelola Komite - Admin</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        :root { --bg-dark: #0f172a; --bg-sidebar: #1e293b; --text-grey: #94a3b8; --text-white: #f8fafc; }
-        body { font-family: 'Poppins', sans-serif; background-color: var(--bg-dark); color: var(--text-white); }
-        .sidebar { background-color: var(--bg-sidebar); box-shadow: 2px 0 10px rgba(0,0,0,0.3); min-height: 100vh; }
-        @media (max-width: 768px) { .sidebar { min-height: auto; margin-bottom: 20px; } .sidebar h4 { display: none; } }
-        .nav-link { color: var(--text-grey); margin-bottom: 5px; border-radius: 8px; transition: 0.3s; }
-        .nav-link:hover, .nav-link.active { background-color: rgba(255,255,255,0.1); color:#fff; }
-        .nav-link i { margin-right:10px; font-size:1.1rem; }
-        .card-custom { background-color: var(--bg-sidebar); border: 1px solid #334155; border-radius:12px; color:white; }
-        .form-control { background-color: #334155; border:1px solid #475569; color:white; }
-        .form-control:focus { background-color:#334155; color:white; border-color:#0ea5e9; box-shadow:0 0 0 0.25rem rgba(14,165,233,0.25); }
+        :root { --bg-dark: #0f172a; --bg-card: #1e293b; --accent: #10b981; }
+        body { font-family: 'Poppins', sans-serif; background-color: var(--bg-dark); color: #f8fafc; margin: 0; }
+        
+        /* Layout Fixer */
+        .main-wrapper {
+            margin-left: 280px; 
+            padding: 40px;
+            min-height: 100vh;
+        }
+
+        @media (max-width: 992px) { .main-wrapper { margin-left: 0; padding: 20px; } }
+
+        .card-custom { background-color: var(--bg-card); border: 1px solid #334155; border-radius: 20px; }
+        .form-control { background-color: #0f172a !important; border: 1px solid #334155 !important; color: #fff !important; padding: 15px; border-radius: 12px; }
+        
+        .preview-box {
+            background: #0f172a;
+            border: 2px dashed #334155;
+            border-radius: 15px;
+            padding: 10px;
+            margin-bottom: 25px;
+            overflow: hidden;
+        }
+        .preview-box img { max-height: 400px; border-radius: 10px; }
     </style>
 </head>
-<body class="bg-dark text-white">
+<body>
+
 <div class="d-flex">
     <?php include __DIR__ . '/dashboard_sidebar.php'; ?>
-    <script>
-        document.addEventListener('DOMContentLoaded', function(){
-            const link = document.querySelector('a[href="komite.php"]');
-            if(link) link.classList.add('active');
-        });
-    </script>
-    <div class="flex-grow-1 p-4">
-        <div class="card card-custom p-4 shadow-sm">
-            <h3 class="fw-bold">Kelola Komite Sekolah</h3>
-            <?php if($msg): ?><div class="alert alert-success"><?= $msg ?></div><?php endif; ?>
-            <form method="post" enctype="multipart/form-data" action="proses.php">
-            <input type="hidden" name="save_komite" value="1">
-            <div class="mb-3">
-                <label class="form-label">Gambar Mindmap Komite</label><br>
-                <?php
-                // show current image if exists
-                if(preg_match('/<img\s+[^>]*src="([^"]+)"/i', $current, $m)){
-                    echo '<img src="'.htmlspecialchars($m[1]).'" class="img-fluid mb-2" style="max-width:300px;">';
-                }
-                ?>
-                <input type="file" name="komite_img" class="form-control" accept="image/*">
-                <small class="form-text text-muted">Unggah file gambar mindmap. Biarkan kosong untuk mempertahankan yang ada.</small>
+
+    <div class="main-wrapper flex-grow-1">
+        <div class="card card-custom p-4 p-md-5 shadow-lg">
+            <div class="mb-4">
+                <h2 class="fw-bold mb-1">Struktur Komite Sekolah</h2>
+                <p class="text-muted">Ganti gambar mindmap atau struktur organisasi komite di bawah ini.</p>
             </div>
-            <div class="mb-3">
-                <label class="form-label">Atau isi HTML manual</label>
-                <textarea name="content" rows="6" class="form-control bg-secondary text-white"><?= htmlspecialchars($current) ?></textarea>
-            </div>
-            <button class="btn btn-success">Simpan</button>
-        </form>
+
+            <?php if($msg): ?>
+                <div class="alert alert-success d-flex align-items-center rounded-4 border-0">
+                    <i class="bi bi-check-circle-fill me-2"></i> <?= $msg ?>
+                </div>
+            <?php endif; ?>
+
+            <form method="post" enctype="multipart/form-data">
+                <div class="mb-4 text-center">
+                    <label class="form-label d-block text-start fw-bold mb-3">Tampilan Saat Ini:</label>
+                    <div class="preview-box">
+    <?php
+    if(preg_match('/src="([^"]+)"/i', $current, $m)){
+        $src = $m[1];
+        // Tambahkan ../ hanya untuk tampilan preview di admin saja
+        $preview_admin = '../' . $src; 
+        echo '<img src="'.htmlspecialchars($preview_admin).'" class="img-fluid" id="current_img">';
+    } else {
+        echo '<div class="py-5 text-muted"><i class="bi bi-image display-1"></i><br>Belum ada gambar</div>';
+    }
+    ?>
+</div>
+                </div>
+
+                <div class="mb-5">
+                    <label class="form-label fw-bold mb-3">Pilih Gambar Baru (JPG/PNG):</label>
+                    <input type="file" name="komite_img" class="form-control" accept="image/*" required>
+                    <div class="form-text text-muted mt-2">Saran: Gunakan gambar dengan lebar minimal 1200px agar terlihat jelas.</div>
+                </div>
+
+                <div class="d-grid">
+                    <button type="submit" class="btn btn-success btn-lg rounded-pill fw-bold py-3">
+                        <i class="bi bi-cloud-arrow-up-fill me-2"></i> Update Gambar Komite
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

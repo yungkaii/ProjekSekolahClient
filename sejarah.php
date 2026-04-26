@@ -46,7 +46,6 @@ if ($banner_foto) {
     --white: #ffffff;
     --shadow: 0 20px 50px rgba(15, 23, 42, 0.12);
     --radius-xl: 24px;
-    --radius-lg: 18px;
 }
 
 body{
@@ -54,19 +53,31 @@ body{
         radial-gradient(circle at top left, rgba(25,135,84,0.08), transparent 25%),
         radial-gradient(circle at top right, rgba(25,135,84,0.06), transparent 20%),
         linear-gradient(180deg, #f8fafc 0%, #eef3f8 100%);
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     color: var(--text);
+}
+
+/* --- ANIMASI --- */
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(40px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulseGlow {
+    0% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.4); }
+    70% { box-shadow: 0 0 0 10px rgba(255, 255, 255, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0); }
 }
 
 /* HERO */
 .hero-sejarah{
     position: relative;
-    min-height: 420px;
+    min-height: 450px;
     background:
-        linear-gradient(135deg, rgba(15,23,42,0.80), rgba(15,23,42,0.45)),
+        linear-gradient(135deg, rgba(15,23,42,0.85), rgba(15,23,42,0.5)),
         url('<?= $bg_image ?>');
     background-size: cover;
     background-position: center;
+    background-attachment: fixed; /* Efek Parallax Tipis */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -80,8 +91,8 @@ body{
     position: absolute;
     inset: 0;
     background:
-        radial-gradient(circle at 20% 20%, rgba(255,255,255,0.10), transparent 25%),
-        radial-gradient(circle at 80% 30%, rgba(255,255,255,0.07), transparent 20%);
+        radial-gradient(circle at 20% 20%, rgba(255,255,255,0.15), transparent 25%),
+        radial-gradient(circle at 80% 30%, rgba(255,255,255,0.05), transparent 20%);
 }
 
 .hero-inner{
@@ -89,132 +100,113 @@ body{
     z-index: 2;
     max-width: 900px;
     padding: 30px 20px;
+    animation: fadeInUp 1s ease-out;
 }
 
 .hero-badge{
     display: inline-block;
-    background: rgba(255,255,255,0.14);
-    border: 1px solid rgba(255,255,255,0.20);
+    background: rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.3);
     color: #fff;
-    padding: 8px 18px;
+    padding: 8px 22px;
     border-radius: 999px;
     font-size: 14px;
     font-weight: 600;
-    letter-spacing: 0.5px;
-    margin-bottom: 18px;
-    backdrop-filter: blur(8px);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    backdrop-filter: blur(10px);
+    animation: pulseGlow 2s infinite;
 }
 
 .hero-sejarah h1{
-    font-size: 52px;
+    font-size: 56px;
     font-weight: 800;
-    margin-bottom: 14px;
-    letter-spacing: 0.5px;
-    line-height: 1.15;
+    margin-bottom: 16px;
+    letter-spacing: -0.5px;
+    line-height: 1.2;
+    text-shadow: 0 4px 20px rgba(0,0,0,0.3);
 }
 
 .hero-sejarah p{
-    font-size: 18px;
-    color: rgba(255,255,255,0.88);
-    max-width: 700px;
+    font-size: 19px;
+    color: rgba(255,255,255,0.9);
+    max-width: 750px;
     margin: 0 auto;
-    line-height: 1.7;
+    line-height: 1.8;
 }
 
 /* CONTENT WRAP */
 .wrap-sejarah{
     position: relative;
-    max-width: 1120px;
-    margin: -90px auto 70px;
+    max-width: 1000px; 
+    margin: -100px auto 80px;
     padding: 0 20px;
     z-index: 3;
+    animation: fadeInUp 1.2s ease-out forwards;
+    opacity: 0; /* Berhubungan dengan animasi forwards */
 }
 
 .box-sejarah{
     position: relative;
-    background: rgba(255,255,255,0.92);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255,255,255,0.7);
+    background: #ffffff;
+    border: 1px solid rgba(226, 232, 240, 0.8);
     border-radius: var(--radius-xl);
     box-shadow: var(--shadow);
-    padding: 50px;
+    padding: 70px 80px;
     overflow: hidden;
 }
 
+/* Efek Glow di Pojok Kanan Atas Kotak */
 .box-sejarah::before{
     content: '';
     position: absolute;
     top: 0;
     right: 0;
-    width: 220px;
-    height: 220px;
-    background: radial-gradient(circle, rgba(25,135,84,0.12), transparent 70%);
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, var(--primary), transparent 70%);
+    opacity: 0.08;
     pointer-events: none;
 }
 
-.header-sejarah{
-    display: flex;
-    align-items: center;
-    gap: 18px;
-    margin-bottom: 28px;
-    flex-wrap: wrap;
-}
-
-.icon-sejarah{
-    width: 62px;
-    height: 62px;
-    border-radius: 18px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: linear-gradient(135deg, var(--primary), #0f766e);
-    color: white;
-    font-size: 28px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.12);
-    flex-shrink: 0;
-}
-
-.judul-wrap{
-    flex: 1;
-}
-
-.label-kecil{
-    display: inline-block;
-    font-size: 13px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
+/* Watermark Kutipan Raksasa */
+.box-sejarah::after{
+    content: '“';
+    position: absolute;
+    top: -20px;
+    left: 30px;
+    font-size: 250px;
+    line-height: 1;
+    font-family: serif;
     color: var(--primary);
-    margin-bottom: 6px;
+    opacity: 0.04;
+    pointer-events: none;
+    z-index: 0;
 }
 
-.judul-sejarah{
-    font-size: 34px;
-    font-weight: 800;
-    line-height: 1.2;
-    margin: 0;
-    color: var(--dark);
-}
-
-.subjudul-sejarah{
-    font-size: 15px;
-    color: var(--muted);
-    margin-top: 8px;
-}
-
-.garis{
-    width: 90px;
-    height: 5px;
-    margin: 24px 0 30px;
-    border-radius: 999px;
-    background: linear-gradient(90deg, var(--primary), transparent);
-}
-
+/* Styling Khusus untuk Output CKEditor */
 .isi-sejarah{
-    font-size: 17px;
+    position: relative;
+    z-index: 1;
+    font-size: 1.15rem;
     line-height: 2;
     color: #475569;
-    text-align: justify;
+    text-align: justify; /* Teks dibikin rata kanan kiri */
+}
+
+/* Efek Drop Cap (Huruf besar ala majalah di paragraf pertama) */
+.isi-sejarah > p:first-of-type::first-letter {
+    float: left;
+    font-size: 4.5rem;
+    line-height: 0.8;
+    font-weight: 800;
+    color: var(--primary);
+    margin-right: 15px;
+    margin-bottom: -5px;
+    padding: 10px 15px;
+    background: rgba(25,135,84,0.08); /* Warna dasar ngikut primary tapi transparan */
+    border-radius: 12px;
 }
 
 .isi-sejarah h1,
@@ -222,128 +214,116 @@ body{
 .isi-sejarah h3,
 .isi-sejarah h4{
     color: var(--dark);
-    margin-top: 30px;
-    margin-bottom: 14px;
-    font-weight: 700;
+    margin-top: 1.8em;
+    margin-bottom: 0.8em;
+    font-weight: 800;
+    position: relative;
+    padding-bottom: 10px;
+}
+
+/* Garis bawah cantik untuk heading */
+.isi-sejarah h2::after, .isi-sejarah h3::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 50px;
+    height: 4px;
+    background: var(--primary);
+    border-radius: 2px;
 }
 
 .isi-sejarah p{
-    margin-bottom: 18px;
+    margin-bottom: 1.5em;
+}
+
+.isi-sejarah a {
+    color: var(--primary);
+    text-decoration: none;
+    font-weight: 600;
+    border-bottom: 2px dashed rgba(25,135,84,0.4);
+    transition: 0.3s;
+}
+
+.isi-sejarah a:hover {
+    border-bottom-color: var(--primary);
 }
 
 .isi-sejarah img{
     max-width: 100%;
     height: auto;
-    border-radius: 16px;
-    margin: 20px 0;
-    box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+    border-radius: 20px;
+    margin: 30px 0;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+    display: block; 
+    transition: transform 0.3s ease;
 }
 
-.isi-sejarah ul,
-.isi-sejarah ol{
-    padding-left: 22px;
-    margin-bottom: 18px;
+.isi-sejarah img:hover {
+    transform: translateY(-5px);
+}
+
+/* Modifikasi Bullet Points */
+.isi-sejarah ul {
+    list-style: none;
+    padding-left: 10px;
+    margin-bottom: 1.5em;
+}
+
+.isi-sejarah ul li {
+    position: relative;
+    padding-left: 30px;
+    margin-bottom: 12px;
+}
+
+.isi-sejarah ul li::before {
+    content: '✦'; /* Bullet point custom */
+    position: absolute;
+    left: 0;
+    color: var(--primary);
+    font-size: 1.2rem;
+    line-height: 1.5;
+}
+
+.isi-sejarah ol {
+    padding-left: 25px;
+    margin-bottom: 1.5em;
+}
+
+.isi-sejarah ol li::marker {
+    color: var(--primary);
+    font-weight: 700;
 }
 
 .isi-sejarah blockquote{
-    margin: 24px 0;
-    padding: 18px 22px;
-    border-left: 4px solid var(--primary);
-    background: rgba(25,135,84,0.06);
-    border-radius: 0 14px 14px 0;
+    margin: 35px 0;
+    padding: 25px 30px;
+    border-left: 5px solid var(--primary);
+    background: #f8fafc;
+    border-radius: 0 16px 16px 0;
+    font-style: italic;
+    font-size: 1.2rem;
     color: #334155;
-}
-
-/* INFO STRIP */
-.info-strip{
-    margin-top: 35px;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 18px;
-}
-
-.info-item{
-    background: #fff;
-    border: 1px solid #e5e7eb;
-    border-radius: var(--radius-lg);
-    padding: 20px;
-    box-shadow: 0 8px 20px rgba(15,23,42,0.05);
-}
-
-.info-item h4{
-    margin: 0 0 8px;
-    font-size: 16px;
-    color: var(--dark);
-}
-
-.info-item p{
-    margin: 0;
-    font-size: 14px;
-    color: var(--muted);
-    line-height: 1.7;
+    box-shadow: inset 0 2px 10px rgba(0,0,0,0.02);
 }
 
 /* RESPONSIVE */
 @media (max-width: 992px){
-    .hero-sejarah{
-        min-height: 360px;
-    }
-
-    .hero-sejarah h1{
-        font-size: 42px;
-    }
-
-    .box-sejarah{
-        padding: 38px 28px;
-    }
-
-    .info-strip{
-        grid-template-columns: 1fr;
-    }
+    .hero-sejarah{ min-height: 400px; }
+    .hero-sejarah h1{ font-size: 46px; }
+    .box-sejarah{ padding: 50px 40px; }
+    .isi-sejarah > p:first-of-type::first-letter { font-size: 3.5rem; }
 }
 
 @media (max-width: 768px){
-    .hero-sejarah{
-        min-height: 300px;
-    }
-
-    .hero-sejarah h1{
-        font-size: 32px;
-    }
-
-    .hero-sejarah p{
-        font-size: 15px;
-    }
-
-    .wrap-sejarah{
-        margin-top: -55px;
-    }
-
-    .box-sejarah{
-        padding: 28px 20px;
-        border-radius: 20px;
-    }
-
-    .judul-sejarah{
-        font-size: 26px;
-    }
-
-    .isi-sejarah{
-        font-size: 15.8px;
-        line-height: 1.9;
-        text-align: left;
-    }
-
-    .header-sejarah{
-        align-items: flex-start;
-    }
-
-    .icon-sejarah{
-        width: 54px;
-        height: 54px;
-        font-size: 24px;
-        border-radius: 14px;
-    }
+    .hero-sejarah{ min-height: 350px; background-attachment: scroll; }
+    .hero-sejarah h1{ font-size: 36px; }
+    .hero-sejarah p{ font-size: 16px; }
+    .wrap-sejarah{ margin-top: -60px; }
+    .box-sejarah{ padding: 35px 25px; border-radius: 20px; }
+    .isi-sejarah{ font-size: 1rem; line-height: 1.8; text-align: left; }
+    .isi-sejarah > p:first-of-type::first-letter { font-size: 3rem; padding: 8px 12px; margin-right: 10px;}
+    .box-sejarah::after { font-size: 150px; top: -10px; left: 10px;}
 }
 </style>
 
@@ -351,45 +331,22 @@ body{
     <div class="hero-inner">
         <div class="hero-badge">Profil Sekolah</div>
         <h1>Sejarah Sekolah</h1>
-        <p>
-            Menelusuri perjalanan, perkembangan, dan semangat pendidikan
-            yang menjadi fondasi SMP Bina Karya Kreatif hingga hari ini.
-        </p>
+        <p>Menelusuri perjalanan, perkembangan, dan semangat pendidikan yang menjadi fondasi kami hingga hari ini.</p>
     </div>
 </div>
 
 <div class="wrap-sejarah">
     <div class="box-sejarah">
-        <div class="header-sejarah">
-            <div class="icon-sejarah">🏫</div>
-            <div class="judul-wrap">
-                <div class="label-kecil">Tentang Kami</div>
-                <h2 class="judul-sejarah">SMP Bina Karya Kreatif</h2>
-                <div class="subjudul-sejarah">
-                    Membangun generasi unggul melalui pendidikan, karakter, dan kreativitas.
-                </div>
-            </div>
-        </div>
-
-        <div class="garis"></div>
-
         <div class="isi-sejarah">
-            <?= $content ?>
-        </div>
-
-        <div class="info-strip">
-            <div class="info-item">
-                <h4>Visi Perjalanan</h4>
-                <p>Sejarah sekolah menjadi cerminan nilai, perjuangan, dan arah masa depan pendidikan.</p>
-            </div>
-            <div class="info-item">
-                <h4>Nilai Utama</h4>
-                <p>Integritas, kreativitas, kedisiplinan, dan semangat belajar menjadi fondasi pertumbuhan.</p>
-            </div>
-            <div class="info-item">
-                <h4>Komitmen Sekolah</h4>
-                <p>Memberikan lingkungan belajar yang inspiratif, nyaman, dan mendorong potensi siswa.</p>
-            </div>
+            <?php if(empty(trim(strip_tags($content)))): ?>
+                <div class="text-center py-5">
+                    <div class="display-1 text-muted opacity-25 mb-3"><i class="bi bi-clock-history"></i></div>
+                    <h4 class="text-muted">Sejarah Belum Ditulis</h4>
+                    <p class="text-muted">Konten sejarah sekolah saat ini belum diisi oleh administrator.</p>
+                </div>
+            <?php else: ?>
+                <?= $content ?>
+            <?php endif; ?>
         </div>
     </div>
 </div>
