@@ -735,17 +735,17 @@ img{
 /* =========================
    GALERI
 ========================= */
-.galeri-grid{
+.galeri-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 22px;
+    grid-template-columns: repeat(3, 1fr); /* Kembali ke 3 kolom agar fotonya lebih besar */
+    gap: 22px; 
 }
 
-.galeri-card{
+.galeri-card {
     position: relative;
-    border-radius: 28px;
+    border-radius: 24px; /* Sudut sedikit diperbesar lagi */
     overflow: hidden;
-    min-height: 280px;
+    aspect-ratio: 4 / 3; /* Mengunci proporsi foto agar rapi, tidak ditarik terlalu panjang */
     box-shadow: var(--shadow-md);
     background: #dbe7df;
     transition: var(--transition-smooth);

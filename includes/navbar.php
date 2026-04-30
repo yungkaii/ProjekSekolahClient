@@ -226,12 +226,12 @@ if (isset($koneksi)) {
 }
 
 /* Warna ikon berbeda per item */
-.dropdown-item:nth-child(1) .dd-icon { background:#eff6ff; color:#3b82f6; }
+.dropdown-item:nth-child(1) .dd-icon { background:#ecfdf5; color:#10b981; }
 .dropdown-item:nth-child(2) .dd-icon { background:#fef3c7; color:#d97706; }
 .dropdown-item:nth-child(3) .dd-icon { background:#f0fdf4; color:#059669; }
 .dropdown-item:nth-child(4) .dd-icon { background:#fdf4ff; color:#a855f7; }
 .dropdown-item:nth-child(5) .dd-icon { background:#fff7ed; color:#ea580c; }
-.dropdown-item:nth-child(6) .dd-icon { background:#f0f9ff; color:#0284c7; }
+.dropdown-item:nth-child(6) .dd-icon { background:#d1fae5; color:#059669; }
 
 .dropdown-item:hover {
     background: #f8fafc !important;
@@ -395,10 +395,13 @@ if (isset($koneksi)) {
     <li><a class="dropdown-item" href="sarpras.php">
         <span class="dd-icon"><i class="bi bi-building"></i></span>Sarana & Prasarana
     </a></li>
+    <li><a class="dropdown-item" href="guru.php">
+        <span class="dd-icon"><i class="bi bi-person-workspace"></i></span>Data Guru
+    </a></li>
     <li><a class="dropdown-item" href="struktur_organisasi.php">
         <span class="dd-icon"><i class="bi bi-diagram-3"></i></span>Struktur Organisasi
     </a></li>
-</ul>
+</ul>   
                 </li>
 
                 <li class="nav-item">
