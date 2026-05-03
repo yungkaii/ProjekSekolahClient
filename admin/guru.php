@@ -42,7 +42,7 @@ if(mysqli_num_rows($cek_tabel) == 0){
             --bg-dark: #0f172a; 
             --bg-sidebar: #1e293b; 
             --text-grey: #94a3b8; 
-            --text-white: #f8fafc; 
+            --text-white: #000000; 
         }
         
         body { 
