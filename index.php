@@ -182,12 +182,35 @@ img{
     50%{ transform: translateY(-8px); }
 }
 
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(50px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes scaleIn {
+    from { 
+        opacity: 0; 
+        transform: scale(0.85); 
+    }
+    to { 
+        opacity: 1; 
+        transform: scale(1); 
+    }
+}
+
+@keyframes shimmer {
+    0% { background-position: -1000px 0; }
+    100% { background-position: 1000px 0; }
+}
+
 .scroll-animate{
     animation: fadeInUp 0.8s ease both;
 }
 .delay-1{ animation-delay: 0.12s; }
 .delay-2{ animation-delay: 0.24s; }
 .delay-3{ animation-delay: 0.36s; }
+.delay-4{ animation-delay: 0.48s; }
+.delay-5{ animation-delay: 0.60s; }
 
 /* =========================
    HERO
@@ -373,6 +396,8 @@ img{
     box-shadow: var(--shadow-lg);
     background: transparent;
     min-height: 0;
+    animation: slideUp 0.8s ease forwards;
+    opacity: 0;
 }
 
 .tentang-image-box img{
@@ -380,11 +405,11 @@ img{
     height: auto;
     display: block;
     object-fit: cover;
-    transition: 0.5s ease;
+    transition: 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .tentang-image-box:hover img{
-    transform: scale(1.04);
+    transform: scale(1.06);
 }
 
 .tentang-floating-card{
@@ -396,6 +421,8 @@ img{
     padding: 18px 20px;
     box-shadow: 0 18px 42px rgba(15,23,42,0.14);
     max-width: 260px;
+    animation: floatSoft 4s ease-in-out infinite, slideUp 0.8s ease 0.3s forwards;
+    opacity: 0;
 }
 
 .tentang-floating-card h5{
@@ -418,6 +445,12 @@ img{
     background: linear-gradient(180deg, rgba(255,255,255,0.96), rgba(248,251,249,0.96));
     border: 1px solid rgba(15,23,42,0.06);
     box-shadow: var(--shadow-md);
+    transition: var(--transition-smooth);
+}
+
+.sambutan-card:hover {
+    box-shadow: 0 18px 45px rgba(15,23,42,0.12);
+    transform: translateY(-4px);
 }
 
 .sambutan-card h2{
@@ -449,6 +482,27 @@ img{
     border-radius: 18px;
     background: #fff;
     border: 1px solid rgba(15,23,42,0.06);
+    transition: var(--transition-smooth);
+    animation: slideUp 0.6s ease forwards;
+    opacity: 0;
+}
+
+.sambutan-point:nth-child(1) {
+    animation-delay: 0.2s;
+}
+
+.sambutan-point:nth-child(2) {
+    animation-delay: 0.3s;
+}
+
+.sambutan-point:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+.sambutan-point:hover {
+    border-color: var(--primary-color);
+    background: rgba(25,135,84,0.05);
+    transform: translateX(8px);
 }
 
 .sambutan-point i{
@@ -481,6 +535,18 @@ img{
     border: 1px solid rgba(15,23,42,0.06);
     background: #fff;
     padding: 34px;
+    transition: var(--transition-smooth);
+    opacity: 0;
+    animation: slideUp 0.8s ease forwards;
+}
+
+.vm-card.scroll-animate.show {
+    animation: slideUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.vm-card:hover{
+    transform: translateY(-8px);
+    box-shadow: 0 20px 50px rgba(15,23,42,0.15);
 }
 
 .vm-card::before{
@@ -647,10 +713,16 @@ img{
     border: 1px solid rgba(15,23,42,0.05);
     min-height: 190px;
     transition: var(--transition-smooth);
+    opacity: 0;
+    animation: slideUp 0.8s ease forwards;
+}
+
+.berita-side-card.scroll-animate.show {
+    animation: slideUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 
 .berita-side-card:hover{
-    transform: translateY(-6px);
+    transform: translateY(-8px);
     box-shadow: 0 24px 52px rgba(15,23,42,0.12);
 }
 
@@ -743,16 +815,22 @@ img{
 
 .galeri-card {
     position: relative;
-    border-radius: 24px; /* Sudut sedikit diperbesar lagi */
+    border-radius: 24px;
     overflow: hidden;
-    aspect-ratio: 4 / 3; /* Mengunci proporsi foto agar rapi, tidak ditarik terlalu panjang */
+    aspect-ratio: 4 / 3;
     box-shadow: var(--shadow-md);
     background: #dbe7df;
     transition: var(--transition-smooth);
+    opacity: 0;
+    animation: scaleIn 0.8s ease forwards;
+}
+
+.galeri-card.scroll-animate.show {
+    animation: scaleIn 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 
 .galeri-card:hover{
-    transform: translateY(-8px);
+    transform: translateY(-10px) scale(1.02);
     box-shadow: var(--shadow-lg);
 }
 
@@ -808,10 +886,16 @@ img{
     border: 1px solid rgba(15,23,42,0.05);
     transition: var(--transition-smooth);
     height: 100%;
+    opacity: 0;
+    animation: slideUp 0.8s ease forwards;
+}
+
+.ekskul-card.scroll-animate.show {
+    animation: slideUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 
 .ekskul-card:hover{
-    transform: translateY(-10px);
+    transform: translateY(-12px);
     box-shadow: var(--shadow-lg);
 }
 

@@ -120,6 +120,64 @@
             }
         }
 
+        @keyframes bounceIn {
+            0% {
+                opacity: 0;
+                transform: scale(0.3);
+            }
+            50% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes rotateIn {
+            from {
+                opacity: 0;
+                transform: rotate(-10deg) scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: rotate(0deg) scale(1);
+            }
+        }
+
+        @keyframes zoomIn {
+            from {
+                opacity: 0;
+                transform: scale(0.5);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
         /* ========================
            UTILITY CLASSES
            ======================== */
@@ -139,16 +197,64 @@
         .delay-2 { animation-delay: 0.2s; }
         .delay-3 { animation-delay: 0.3s; }
         .delay-4 { animation-delay: 0.4s; }
+        .delay-5 { animation-delay: 0.5s; }
+        .delay-6 { animation-delay: 0.6s; }
 
         /* ========================
            SCROLL ANIMATION TRIGGER
            ======================== */
         .scroll-animate {
             opacity: 0;
+            transform: translateY(30px);
         }
 
         .scroll-animate.show {
-            animation: fadeInUp 0.8s ease-out forwards;
+            animation: fadeInUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+
+        .scroll-animate.show.delay-1 {
+            animation: fadeInUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.1s forwards;
+        }
+
+        .scroll-animate.show.delay-2 {
+            animation: fadeInUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.2s forwards;
+        }
+
+        .scroll-animate.show.delay-3 {
+            animation: fadeInUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.3s forwards;
+        }
+
+        .scroll-animate.show.delay-4 {
+            animation: fadeInUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.4s forwards;
+        }
+
+        .scroll-animate.show.delay-5 {
+            animation: fadeInUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.5s forwards;
+        }
+
+        .scroll-animate.show.delay-6 {
+            animation: fadeInUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.6s forwards;
+        }
+
+        /* Alternative animation styles */
+        .scroll-animate[data-animation="bounce"].show {
+            animation: bounceIn 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+        }
+
+        .scroll-animate[data-animation="zoom"].show {
+            animation: zoomIn 0.8s ease-out forwards;
+        }
+
+        .scroll-animate[data-animation="rotate"].show {
+            animation: rotateIn 0.8s ease-out forwards;
+        }
+
+        .scroll-animate[data-animation="slide-left"].show {
+            animation: fadeInLeft 0.8s ease-out forwards;
+        }
+
+        .scroll-animate[data-animation="slide-right"].show {
+            animation: fadeInRight 0.8s ease-out forwards;
         }
 
         /* ========================
@@ -255,6 +361,22 @@
             background: var(--gradient-primary);
             border-radius: 10px;
         }
+
+        /* ========================
+           SCROLL PROGRESS BAR
+           ======================== */
+        .scroll-progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #198754 0%, #20c997 50%, #198754 100%);
+            background-size: 200% 100%;
+            width: 0%;
+            z-index: 9999;
+            transition: width 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 0 10px rgba(32, 201, 151, 0.5);
+        }
     </style>
 </head>
 <body>  
@@ -286,10 +408,10 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // ========================
-    // SCROLL REVEAL ANIMATION
+    // ENHANCED SCROLL REVEAL ANIMATION
     // ========================
     const observerOptions = {
-        threshold: 0.1,
+        threshold: 0.15,
         rootMargin: '0px 0px -50px 0px'
     };
 
@@ -297,6 +419,14 @@ document.addEventListener('DOMContentLoaded', function() {
         entries.forEach(entry => {
             if(entry.isIntersecting) {
                 entry.target.classList.add('show');
+                // Optional: trigger custom callback
+                if(entry.target.dataset.onShow) {
+                    try {
+                        eval(entry.target.dataset.onShow);
+                    } catch(e) {
+                        console.error('Error in onShow callback:', e);
+                    }
+                }
                 observer.unobserve(entry.target);
             }
         });
@@ -305,6 +435,41 @@ document.addEventListener('DOMContentLoaded', function() {
     // Apply observer to scroll-animate elements
     document.querySelectorAll('.scroll-animate').forEach(el => {
         observer.observe(el);
+    });
+
+    // ========================
+    // SCROLL COUNTER ANIMATION
+    // ========================
+    const animateCounter = (element) => {
+        const target = parseInt(element.getAttribute('data-target')) || 0;
+        const duration = parseInt(element.getAttribute('data-duration')) || 1500;
+        const increment = target / (duration / 16);
+        let current = 0;
+
+        const updateCounter = () => {
+            current += increment;
+            if (current < target) {
+                element.textContent = Math.floor(current);
+                requestAnimationFrame(updateCounter);
+            } else {
+                element.textContent = target;
+            }
+        };
+
+        updateCounter();
+    };
+
+    const counterObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if(entry.isIntersecting) {
+                animateCounter(entry.target);
+                counterObserver.unobserve(entry.target);
+            }
+        });
+    });
+
+    document.querySelectorAll('[data-target]').forEach(el => {
+        counterObserver.observe(el);
     });
 
     // ========================
@@ -318,5 +483,56 @@ document.addEventListener('DOMContentLoaded', function() {
             el.style.transform = `translateY(${yPos}px)`;
         });
     });
+
+    // ========================
+    // CARD HOVER LIFT EFFECT
+    // ========================
+    const cards = document.querySelectorAll('.card, .berita-side-card, .galeri-card, .ekskul-card, .vm-card');
+    cards.forEach(card => {
+        card.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateY(-8px)';
+        });
+        card.addEventListener('mouseleave', function() {
+            this.style.transform = 'translateY(0)';
+        });
+    });
+
+    // ========================
+    // SCROLL PROGRESS BAR
+    // ========================
+    window.addEventListener('scroll', function() {
+        const scrollProgress = document.querySelector('.scroll-progress-bar');
+        if(scrollProgress) {
+            const scrollTop = window.scrollY;
+            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const scrollPercent = (scrollTop / docHeight) * 100;
+            scrollProgress.style.width = scrollPercent + '%';
+        }
+    });
 });
+</script>
+
+<!-- Enhanced Scroll Animations -->
+<script>
+    // Dynamically load scroll animations based on script location
+    (function() {
+        const scriptPath = document.currentScript ? document.currentScript.src : '';
+        let basePath = '/';
+        
+        // Determine base path
+        if (typeof window !== 'undefined') {
+            const currentPath = window.location.pathname;
+            if (currentPath.includes('/admin/')) {
+                basePath = '/';
+            } else if (currentPath !== '/index.php' && !currentPath.endsWith('/')) {
+                basePath = '/';
+            }
+        }
+        
+        // Load the enhanced scroll animations script
+        const script = document.createElement('script');
+        script.src = basePath + 'assets/js/scroll-animations.js?v=' + Date.now();
+        script.async = true;
+        document.head.appendChild(script);
+    })();
 </script>
