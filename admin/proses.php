@@ -456,4 +456,22 @@ if(isset($_GET['hapus_guru'])){
     }
 }
 
+// ==========================================================
+// HAPUS STRUKTUR ORGANISASI
+// ==========================================================
+if(isset($_GET['hapus_struktur'])){
+    $id = intval($_GET['hapus_struktur']);
+    $data = mysqli_fetch_array(mysqli_query($koneksi, "SELECT * FROM struktur_organisasi WHERE id='$id'"));
+    
+    if($data && file_exists("../assets/img/" . $data['foto'])){
+        unlink("../assets/img/" . $data['foto']);
+    }
+    
+    if(mysqli_query($koneksi, "DELETE FROM struktur_organisasi WHERE id='$id'")){
+        echo "<script>alert('Data berhasil dihapus'); window.location='struktur_organisasi.php';</script>";
+    } else {
+        echo "<script>alert('Gagal hapus data'); window.location='struktur_organisasi.php';</script>";
+    }
+}
+
 ?>
