@@ -294,7 +294,7 @@ body .btn-logout:hover {
                 
                 <?php
                 $active = basename($_SERVER['PHP_SELF']);
-                $openPages = ['pengaturan.php','sejarah.php','komite.php','kurikulum.php','kesiswaan.php','sarpras.php','struktur_organisasi.php'];
+                $openPages = ['pengaturan.php','sejarah.php','komite.php','kurikulum.php','kesiswaan.php','sarpras.php','struktur_organisasi.php','guru.php','tambah_guru.php','edit_guru.php'];
                 $collapseClass = in_array($active, $openPages) ? 'collapse ps-3 show' : 'collapse ps-3';
                 ?>
                 
@@ -307,6 +307,7 @@ body .btn-logout:hover {
                         <li class="nav-item"><a class="nav-link" style="font-size: 13px; padding: 6px 15px;" href="kesiswaan.php">Kesiswaan</a></li>
                         <li class="nav-item"><a class="nav-link" style="font-size: 13px; padding: 6px 15px;" href="sarpras.php">Sarana &amp; Prasarana</a></li>
                         <li class="nav-item"><a class="nav-link" style="font-size: 13px; padding: 6px 15px;" href="struktur_organisasi.php">Struktur Organisasi</a></li>
+                        <li class="nav-item"><a class="nav-link" style="font-size: 13px; padding: 6px 15px;" href="guru.php">Kelola Guru</a></li>
                     </ul>
                 </div>
             </li>

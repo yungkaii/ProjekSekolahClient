@@ -370,4 +370,90 @@ if(isset($_POST['update_ekskul'])){
     echo "<script>alert('Data Berhasil Diupdate'); window.location='ekskul.php';</script>";
 }
 
+// ==========================================================
+// 6. KELOLA GURU
+// ==========================================================
+if(isset($_POST['simpan_guru'])){
+    $nip = mysqli_real_escape_string($koneksi, $_POST['nip']);
+    $nama_guru = mysqli_real_escape_string($koneksi, $_POST['nama_guru']);
+    $jabatan = mysqli_real_escape_string($koneksi, $_POST['jabatan']);
+    $bidang_keahlian = mysqli_real_escape_string($koneksi, $_POST['bidang_keahlian']);
+    $spesialisasi = mysqli_real_escape_string($koneksi, $_POST['spesialisasi']);
+    $no_telp = mysqli_real_escape_string($koneksi, $_POST['no_telp']);
+    $email = mysqli_real_escape_string($koneksi, $_POST['email']);
+    
+    $foto_name = '';
+    if(isset($_FILES['foto']) && $_FILES['foto']['name'] != ''){
+        $foto = $_FILES['foto']['name'];
+        $tmp = $_FILES['foto']['tmp_name'];
+        $foto_name = date('dmYHis') . "_" . $foto;
+        $path = "../assets/img/" . $foto_name;
+        move_uploaded_file($tmp, $path);
+    }
+    
+    $query = "INSERT INTO guru (nip, nama_guru, jabatan, bidang_keahlian, spesialisasi, no_telp, email, foto) 
+              VALUES ('$nip', '$nama_guru', '$jabatan', '$bidang_keahlian', '$spesialisasi', '$no_telp', '$email', '$foto_name')";
+    
+    if(mysqli_query($koneksi, $query)){
+        echo "<script>alert('Guru Berhasil Ditambahkan'); window.location='guru.php';</script>";
+    } else {
+        echo "<script>alert('Gagal menambahkan guru: " . mysqli_error($koneksi) . "'); window.location='tambah_guru.php';</script>";
+    }
+}
+
+if(isset($_POST['update_guru'])){
+    $id = intval($_POST['id_guru']);
+    $nip = mysqli_real_escape_string($koneksi, $_POST['nip']);
+    $nama_guru = mysqli_real_escape_string($koneksi, $_POST['nama_guru']);
+    $jabatan = mysqli_real_escape_string($koneksi, $_POST['jabatan']);
+    $bidang_keahlian = mysqli_real_escape_string($koneksi, $_POST['bidang_keahlian']);
+    $spesialisasi = mysqli_real_escape_string($koneksi, $_POST['spesialisasi']);
+    $no_telp = mysqli_real_escape_string($koneksi, $_POST['no_telp']);
+    $email = mysqli_real_escape_string($koneksi, $_POST['email']);
+    
+    $data = mysqli_fetch_array(mysqli_query($koneksi, "SELECT * FROM guru WHERE id='$id'"));
+    
+    if(isset($_FILES['foto']) && $_FILES['foto']['name'] != ''){
+        $foto = $_FILES['foto']['name'];
+        $tmp = $_FILES['foto']['tmp_name'];
+        $foto_name = date('dmYHis') . "_" . $foto;
+        $path = "../assets/img/" . $foto_name;
+        
+        // Hapus foto lama jika ada
+        if($data && file_exists("../assets/img/" . $data['foto'])){
+            unlink("../assets/img/" . $data['foto']);
+        }
+        
+        move_uploaded_file($tmp, $path);
+        $query = "UPDATE guru SET nip='$nip', nama_guru='$nama_guru', jabatan='$jabatan', 
+                  bidang_keahlian='$bidang_keahlian', spesialisasi='$spesialisasi', 
+                  no_telp='$no_telp', email='$email', foto='$foto_name' WHERE id='$id'";
+    } else {
+        $query = "UPDATE guru SET nip='$nip', nama_guru='$nama_guru', jabatan='$jabatan', 
+                  bidang_keahlian='$bidang_keahlian', spesialisasi='$spesialisasi', 
+                  no_telp='$no_telp', email='$email' WHERE id='$id'";
+    }
+    
+    if(mysqli_query($koneksi, $query)){
+        echo "<script>alert('Guru Berhasil Diupdate'); window.location='guru.php';</script>";
+    } else {
+        echo "<script>alert('Gagal update guru: " . mysqli_error($koneksi) . "'); window.location='edit_guru.php?id=$id';</script>";
+    }
+}
+
+if(isset($_GET['hapus_guru'])){
+    $id = intval($_GET['hapus_guru']);
+    $data = mysqli_fetch_array(mysqli_query($koneksi, "SELECT * FROM guru WHERE id='$id'"));
+    
+    if($data && file_exists("../assets/img/" . $data['foto'])){
+        unlink("../assets/img/" . $data['foto']);
+    }
+    
+    if(mysqli_query($koneksi, "DELETE FROM guru WHERE id='$id'")){
+        echo "<script>alert('Guru Berhasil Dihapus'); window.location='guru.php';</script>";
+    } else {
+        echo "<script>alert('Gagal hapus guru'); window.location='guru.php';</script>";
+    }
+}
+
 ?>
