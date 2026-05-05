@@ -32,10 +32,12 @@ $gambar = $data['gambar'] ? "assets/img_berita/".$data['gambar'] : "https://via.
                 <i class="bi bi-arrow-left"></i> Kembali ke Beranda
             </a>
 
-            <h1 class="fw-bold mb-3"><?= $data['judul'] ?></h1>
+            <h1 class="fw-bold mb-3" style="word-break: break-word; overflow-wrap: anywhere;">
+                <?= htmlspecialchars($data['judul']) ?>
+            </h1>
             
             <div class="text-muted mb-4">
-                <i class="bi bi-calendar-event me-2"></i> <?= $data['tanggal'] ?>
+                <i class="bi bi-calendar-event me-2"></i> <?= htmlspecialchars($data['tanggal']) ?>
             </div>
 
             <div class="mb-4 rounded-3 overflow-hidden shadow-sm">

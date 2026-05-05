@@ -234,6 +234,10 @@ $notificationCount = count($notifications);
         }
 
         /* --- TABLE --- */
+        .table-custom {
+            width: 100%;
+            table-layout: fixed;
+        }
         .table-custom th {
             font-size: 12px;
             color: var(--text-muted);
@@ -247,6 +251,15 @@ $notificationCount = count($notifications);
             border-bottom: 1px solid #f1f5f9;
             padding: 15px 0;
             font-size: 14px;
+            word-break: break-word;
+            overflow-wrap: anywhere;
+        }
+        .table-custom td .fw-bold {
+            display: block;
+            max-width: 100%;
+            white-space: normal;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
         .dot-status {
             height: 8px;
@@ -327,7 +340,6 @@ $notificationCount = count($notifications);
         <div class="d-flex align-items-center gap-3">
             <div class="search-bar">
                 <i class="bi bi-search text-muted"></i>
-                <input type="text" placeholder="Cari data...">
             </div>
             <div class="dropdown">
                 <button class="btn icon-btn dropdown-toggle position-relative" type="button" data-bs-toggle="dropdown" aria-expanded="false">

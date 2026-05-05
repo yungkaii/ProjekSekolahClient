@@ -76,6 +76,9 @@ img{
     max-width: 760px;
     margin: 0 auto 55px;
     text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .section-badge{
@@ -715,6 +718,7 @@ img{
     transition: var(--transition-smooth);
     opacity: 0;
     animation: slideUp 0.8s ease forwards;
+    align-items: start;
 }
 
 .berita-side-card.scroll-animate.show {
@@ -729,7 +733,8 @@ img{
 .berita-side-thumb{
     border-radius: 18px;
     overflow: hidden;
-    height: 100%;
+    min-height: 160px;
+    height: 160px;
 }
 
 .berita-side-thumb img{
@@ -747,6 +752,7 @@ img{
     display: flex;
     flex-direction: column;
     justify-content: center;
+    min-width: 0;
 }
 
 .berita-side-body h4{
@@ -755,6 +761,13 @@ img{
     font-weight: 800;
     color: var(--dark-color);
     margin: 8px 0 10px;
+    word-break: break-word;
+    overflow-wrap: anywhere;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
 }
 
 .berita-side-body p{
@@ -762,6 +775,12 @@ img{
     line-height: 1.8;
     margin-bottom: 12px;
     font-size: 0.94rem;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    word-break: break-word;
+    overflow-wrap: anywhere;
 }
 
 .berita-link{

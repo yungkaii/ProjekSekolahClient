@@ -2,6 +2,17 @@
 session_start();
 include '../config/koneksi.php';
 
+// Function untuk log notifikasi
+function logNotifikasi($koneksi, $tipe, $aksi, $judul, $link = 'dashboard.php'){
+    $tipe = mysqli_real_escape_string($koneksi, $tipe);
+    $aksi = mysqli_real_escape_string($koneksi, $aksi);
+    $judul = mysqli_real_escape_string($koneksi, $judul);
+    $link = mysqli_real_escape_string($koneksi, $link);
+    
+    $query = "INSERT INTO notifikasi (tipe, aksi, judul, link, created_at) VALUES ('$tipe', '$aksi', '$judul', '$link', NOW())";
+    return mysqli_query($koneksi, $query);
+}
+
 // ==========================================================
 // 1. LOGIK LOGIN (INI YANG KEMARIN HILANG)
 // ==========================================================
@@ -210,6 +221,9 @@ if(isset($_POST['simpan_berita'])){
     if(move_uploaded_file($tmp, $path)){
         mysqli_query($koneksi, "INSERT INTO berita (judul, isi, tanggal, gambar, status) VALUES ('$judul', '$isi', '$tanggal', '$nama_baru', '$status')");
         
+        // Log notification
+        logNotifikasi($koneksi, 'berita', 'ditambahkan', $judul, 'berita.php');
+        
         if($status == 'publish'){
             echo "<script>alert('Berita Berhasil Dipublish!'); window.location='berita.php';</script>";
         } else {
@@ -240,6 +254,9 @@ if(isset($_POST['update_berita'])){
     }
     mysqli_query($koneksi, $query);
     
+    // Log notification
+    logNotifikasi($koneksi, 'berita', 'diperbarui', $judul, 'berita.php');
+    
     if($status == 'publish'){
         echo "<script>alert('Berita Berhasil Dipublish!'); window.location='berita.php';</script>";
     } else {
@@ -253,6 +270,10 @@ if(isset($_GET['hapus_berita'])){
     if(file_exists("../assets/img_berita/" . $data['gambar'])){
         unlink("../assets/img_berita/" . $data['gambar']);
     }
+    
+    // Log notification sebelum delete
+    logNotifikasi($koneksi, 'berita', 'dihapus', $data['judul'], 'berita.php');
+    
     mysqli_query($koneksi, "DELETE FROM berita WHERE id='$id'");
     echo "<script>alert('Berita Berhasil Dihapus'); window.location='berita.php';</script>";
 }
@@ -279,6 +300,10 @@ if(isset($_POST['simpan_galeri']) || isset($_POST['upload_galeri'])){
 
         if(move_uploaded_file($tmp, $path)){
             mysqli_query($koneksi, "INSERT INTO galeri (judul, gambar) VALUES ('$judul', '$nama_baru')");
+            
+            // Log notification
+            logNotifikasi($koneksi, 'galeri', 'ditambahkan', $judul, 'galeri.php');
+            
             echo "<script>alert('Foto Galeri Berhasil Ditambahkan'); window.location='galeri.php';</script>";
         }
     }
@@ -309,6 +334,10 @@ if(isset($_POST['update_galeri'])){
     }
 
     mysqli_query($koneksi, $query);
+    
+    // Log notification
+    logNotifikasi($koneksi, 'galeri', 'diperbarui', $judul, 'galeri.php');
+    
     echo "<script>alert('Galeri Berhasil Diupdate'); window.location='galeri.php';</script>";
 }
 
@@ -318,6 +347,10 @@ if(isset($_GET['hapus_galeri'])){
     if($data && file_exists("../assets/img_galeri/" . $data['gambar'])){
         unlink("../assets/img_galeri/" . $data['gambar']);
     }
+    
+    // Log notification sebelum delete
+    logNotifikasi($koneksi, 'galeri', 'dihapus', $data['judul'], 'galeri.php');
+    
     mysqli_query($koneksi, "DELETE FROM galeri WHERE id='$id'");
     echo "<script>alert('Galeri Berhasil Dihapus'); window.location='galeri.php';</script>";
 }
@@ -395,6 +428,9 @@ if(isset($_POST['simpan_guru'])){
               VALUES ('$nip', '$nama_guru', '$jabatan', '$bidang_keahlian', '$spesialisasi', '$no_telp', '$email', '$foto_name')";
     
     if(mysqli_query($koneksi, $query)){
+        // Log notification
+        logNotifikasi($koneksi, 'guru', 'ditambahkan', $nama_guru, 'guru.php');
+        
         echo "<script>alert('Guru Berhasil Ditambahkan'); window.location='guru.php';</script>";
     } else {
         echo "<script>alert('Gagal menambahkan guru: " . mysqli_error($koneksi) . "'); window.location='tambah_guru.php';</script>";
@@ -435,6 +471,9 @@ if(isset($_POST['update_guru'])){
     }
     
     if(mysqli_query($koneksi, $query)){
+        // Log notification
+        logNotifikasi($koneksi, 'guru', 'diperbarui', $nama_guru, 'guru.php');
+        
         echo "<script>alert('Guru Berhasil Diupdate'); window.location='guru.php';</script>";
     } else {
         echo "<script>alert('Gagal update guru: " . mysqli_error($koneksi) . "'); window.location='edit_guru.php?id=$id';</script>";
@@ -447,6 +486,11 @@ if(isset($_GET['hapus_guru'])){
     
     if($data && file_exists("../assets/img/" . $data['foto'])){
         unlink("../assets/img/" . $data['foto']);
+    }
+    
+    // Log notification sebelum delete
+    if($data){
+        logNotifikasi($koneksi, 'guru', 'dihapus', $data['nama_guru'], 'guru.php');
     }
     
     if(mysqli_query($koneksi, "DELETE FROM guru WHERE id='$id'")){

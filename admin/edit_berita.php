@@ -22,7 +22,7 @@ $data = mysqli_fetch_array($query);
         :root {
             --bg-dark: #0f172a;
             --bg-sidebar: #1e293b;
-            --text-white: #f8fafc;
+            --text-white: #000000;
         }
 
         * { box-sizing: border-box; }
@@ -49,15 +49,20 @@ $data = mysqli_fetch_array($query);
         }
 
         .form-control {
-            background-color: #1a2332 !important;
-            border: 1px solid #334155 !important;
-            color: white !important;
+            background-color: #ffffff !important;
+            border: 1px solid #ced4da !important;
+            color: #111 !important;
+        }
+
+        .form-control::placeholder {
+            color: #6b7280 !important;
         }
 
         .form-control:focus {
-            background-color: #1a2332 !important;
+            background-color: #ffffff !important;
             border-color: #3b82f6 !important;
-            color: white !important;
+            color: #111 !important;
+            box-shadow: 0 0 0 0.2rem rgba(59,130,246,0.25);
         }
 
         .form-label {
